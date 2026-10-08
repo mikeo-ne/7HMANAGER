@@ -1,0 +1,2456 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#050608" />
+  <title>7H Manager · 7H Music Group</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%231ed760'/%3E%3Ctext x='32' y='41' font-family='Arial,sans-serif' font-weight='800' font-size='26' text-anchor='middle' fill='%2303140a'%3E7H%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3/dist/index.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@1.53.0/dist/umd/lucide.min.js"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --font-display: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+      --color-canvas: #050608;
+      --color-brand: #1ed760;
+    }
+
+    @layer base {
+      html { color-scheme: dark; }
+      body {
+        background-color: var(--color-canvas);
+        background-image:
+          radial-gradient(1100px 620px at 8% -12%, rgb(30 215 96 / 0.10), transparent 60%),
+          radial-gradient(900px 560px at 100% -8%, rgb(124 58 237 / 0.10), transparent 58%),
+          radial-gradient(800px 500px at 50% 120%, rgb(14 165 233 / 0.06), transparent 60%);
+        background-attachment: fixed;
+        -webkit-font-smoothing: antialiased;
+      }
+      /* Grids never widen to fit nowrap content on small screens. */
+      .grid { grid-template-columns: minmax(0, 1fr); }
+      ::selection { background: rgb(30 215 96 / 0.3); }
+      :focus-visible { outline: 2px solid rgb(30 215 96 / 0.75); outline-offset: 2px; }
+      input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.85); opacity: 0.7; cursor: pointer; }
+      * { scrollbar-width: thin; scrollbar-color: rgb(255 255 255 / 0.14) transparent; }
+    }
+
+    @layer components {
+      .eyebrow { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgb(30 215 96); }
+      .page-title { font-family: var(--font-display); font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2.25rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; color: rgb(250 250 250); }
+      .page-sub { margin-top: 0.5rem; font-size: 0.9375rem; line-height: 1.6; color: rgb(161 161 170); }
+      .section-title { font-family: var(--font-display); font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.01em; color: rgb(250 250 250); }
+      .label { display: block; margin-bottom: 0.375rem; font-size: 0.75rem; font-weight: 600; color: rgb(161 161 170); }
+      .num { font-variant-numeric: tabular-nums; }
+
+      .card { border-radius: 1.25rem; border: 1px solid rgb(255 255 255 / 0.07); background: linear-gradient(180deg, rgb(255 255 255 / 0.045), rgb(255 255 255 / 0.02)); box-shadow: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 20px 50px -30px rgb(0 0 0 / 0.8); }
+      .card-tight { border-radius: 1rem; border: 1px solid rgb(255 255 255 / 0.06); background: rgb(255 255 255 / 0.02); }
+      .stat { border-radius: 1rem; border: 1px solid rgb(255 255 255 / 0.07); background: rgb(0 0 0 / 0.25); padding: 0.9rem 1rem; }
+
+      .chip { display: inline-flex; align-items: center; gap: 0.3rem; border-radius: 999px; border: 1px solid rgb(255 255 255 / 0.08); background: rgb(255 255 255 / 0.05); padding: 0.125rem 0.6rem; font-size: 0.75rem; font-weight: 500; color: rgb(212 212 216); white-space: nowrap; }
+      .badge { display: inline-flex; align-items: center; border-radius: 999px; border: 1px solid; padding: 0.125rem 0.55rem; font-size: 0.6875rem; font-weight: 600; white-space: nowrap; }
+      .chip-link { display: inline-flex; align-items: center; gap: 0.35rem; border-radius: 0.6rem; border: 1px solid rgb(255 255 255 / 0.08); background: rgb(255 255 255 / 0.04); padding: 0.3rem 0.6rem; font-size: 0.75rem; font-weight: 600; color: rgb(212 212 216); transition: border-color 0.15s, color 0.15s, background-color 0.15s; }
+      .chip-link:hover { border-color: rgb(30 215 96 / 0.4); color: rgb(110 231 183); }
+      .chip-link-empty { border-style: dashed; color: rgb(113 113 122); }
+
+      .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; border-radius: 0.75rem; border: 1px solid transparent; padding: 0.55rem 1rem; font-size: 0.875rem; font-weight: 600; line-height: 1.25; white-space: nowrap; cursor: pointer; transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.05s; }
+      .btn:active { transform: translateY(1px); }
+      .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+      .btn-sm { padding: 0.4rem 0.7rem; font-size: 0.8125rem; border-radius: 0.6rem; gap: 0.4rem; }
+      .btn-primary { background: rgb(30 215 96); color: #03140a; box-shadow: 0 10px 30px -12px rgb(30 215 96 / 0.8); }
+      .btn-primary:hover { background: rgb(74 222 128); }
+      .btn-ghost { border-color: rgb(255 255 255 / 0.1); background: rgb(255 255 255 / 0.04); color: rgb(228 228 231); }
+      .btn-ghost:hover { background: rgb(255 255 255 / 0.08); border-color: rgb(255 255 255 / 0.18); }
+      .btn-danger { border-color: rgb(244 63 94 / 0.3); background: rgb(244 63 94 / 0.1); color: rgb(253 164 175); }
+      .btn-danger:hover { background: rgb(244 63 94 / 0.18); }
+
+      .icon-btn { display: inline-grid; place-items: center; width: 2.25rem; height: 2.25rem; flex-shrink: 0; border-radius: 0.7rem; color: rgb(161 161 170); cursor: pointer; transition: background-color 0.15s, color 0.15s; }
+      .icon-btn:hover { background: rgb(255 255 255 / 0.07); color: rgb(250 250 250); }
+      .icon-btn-danger:hover { background: rgb(244 63 94 / 0.12); color: rgb(253 164 175); }
+      .icon-btn-sm { width: 2.125rem; height: 2.125rem; }
+      .icon-btn-xs { width: 1.75rem; height: 1.75rem; }
+
+      .input, .select, .select-sm, .textarea, .textarea-sm { width: 100%; min-width: 0; border-radius: 0.75rem; border: 1px solid rgb(255 255 255 / 0.1); background-color: rgb(0 0 0 / 0.32); color: rgb(244 244 245); font-size: 0.875rem; transition: border-color 0.15s, box-shadow 0.15s; }
+      .input::placeholder, .textarea::placeholder, .textarea-sm::placeholder { color: rgb(113 113 122); }
+      .input, .select { height: 2.5rem; padding: 0 0.75rem; }
+      .input:disabled, .select:disabled { opacity: 0.5; }
+      .textarea { min-height: 5rem; padding: 0.6rem 0.75rem; line-height: 1.5; resize: vertical; }
+      .textarea-sm { min-height: 3.5rem; padding: 0.45rem 0.6rem; line-height: 1.45; font-size: 0.8125rem; resize: vertical; }
+      .select, .select-sm { appearance: none; background-repeat: no-repeat; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-position: right 0.7rem center; padding-right: 2.1rem; cursor: pointer; }
+      .select-sm { height: 2.125rem; padding-left: 0.6rem; font-size: 0.8125rem; }
+      .input:focus, .select:focus, .select-sm:focus, .textarea:focus, .textarea-sm:focus { outline: none; border-color: rgb(30 215 96 / 0.6); box-shadow: 0 0 0 4px rgb(30 215 96 / 0.12); }
+      .check { width: 1rem; height: 1rem; flex-shrink: 0; cursor: pointer; accent-color: rgb(30 215 96); }
+
+      .nav-link { display: flex; align-items: center; gap: 0.75rem; border-radius: 0.875rem; padding: 0.6rem 0.75rem; font-size: 0.875rem; font-weight: 500; color: rgb(161 161 170); transition: background-color 0.15s, color 0.15s; }
+      .nav-link:hover { background: rgb(255 255 255 / 0.05); color: rgb(250 250 250); }
+      .nav-link.active { background: rgb(30 215 96 / 0.12); color: rgb(110 231 183); box-shadow: inset 0 0 0 1px rgb(30 215 96 / 0.2); }
+      .nav-count { margin-left: auto; border-radius: 999px; background: rgb(30 215 96 / 0.16); color: rgb(110 231 183); padding: 0.05rem 0.5rem; font-size: 0.6875rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+      .logo-mark { display: grid; place-items: center; flex-shrink: 0; border-radius: 30%; background: linear-gradient(140deg, #1ed760 0%, #16a34a 45%, #0ea5e9 100%); color: #03140a; font-family: var(--font-display); font-weight: 800; letter-spacing: -0.04em; box-shadow: 0 14px 40px -12px rgb(30 215 96 / 0.65), inset 0 1px 0 rgb(255 255 255 / 0.35); }
+
+      .table-head th { padding: 0.75rem 1rem; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-align: left; color: rgb(113 113 122); background: rgb(255 255 255 / 0.02); border-bottom: 1px solid rgb(255 255 255 / 0.07); white-space: nowrap; }
+      .table-row td { border-bottom: 1px solid rgb(255 255 255 / 0.05); }
+      .table-row:hover td { background: rgb(255 255 255 / 0.02); }
+      .table-row:last-child td { border-bottom: 0; }
+
+      .qa { display: flex; width: 100%; align-items: center; gap: 0.75rem; border-radius: 0.9rem; border: 1px solid rgb(255 255 255 / 0.06); background: rgb(255 255 255 / 0.025); padding: 0.7rem 0.85rem; font-size: 0.875rem; font-weight: 500; color: rgb(228 228 231); text-align: left; cursor: pointer; transition: background-color 0.15s, border-color 0.15s; }
+      .qa:hover { background: rgb(255 255 255 / 0.06); border-color: rgb(255 255 255 / 0.14); }
+      .qa-icon { display: grid; place-items: center; flex-shrink: 0; width: 2rem; height: 2rem; border-radius: 0.6rem; background: rgb(30 215 96 / 0.12); color: rgb(110 231 183); }
+      .qa-danger { color: rgb(253 164 175); }
+      .qa-danger .qa-icon { background: rgb(244 63 94 / 0.12); color: rgb(253 164 175); }
+
+      .seg-group { display: inline-flex; padding: 0.25rem; border-radius: 0.9rem; border: 1px solid rgb(255 255 255 / 0.08); background: rgb(0 0 0 / 0.3); }
+      .seg { display: inline-flex; align-items: center; gap: 0.4rem; border-radius: 0.65rem; padding: 0.4rem 0.8rem; font-size: 0.8125rem; font-weight: 600; color: rgb(161 161 170); cursor: pointer; }
+      .seg:hover { color: rgb(250 250 250); }
+      .seg.is-on { background: rgb(255 255 255 / 0.09); color: rgb(250 250 250); box-shadow: 0 1px 0 rgb(255 255 255 / 0.06) inset; }
+      .filter-chip { display: inline-flex; align-items: center; gap: 0.45rem; border-radius: 999px; border: 1px solid rgb(255 255 255 / 0.09); background: rgb(255 255 255 / 0.03); padding: 0.4rem 0.85rem; font-size: 0.8125rem; font-weight: 600; color: rgb(161 161 170); cursor: pointer; transition: background-color 0.15s, border-color 0.15s, color 0.15s; }
+      .filter-chip:hover { color: rgb(250 250 250); border-color: rgb(255 255 255 / 0.18); }
+      .filter-chip.is-on { border-color: rgb(30 215 96 / 0.45); background: rgb(30 215 96 / 0.12); color: rgb(110 231 183); }
+      .filter-chip .count { font-variant-numeric: tabular-nums; color: rgb(113 113 122); }
+      .filter-chip.is-on .count { color: rgb(110 231 183); }
+
+      .pin-cell { display: grid; place-items: center; height: 3.5rem; border-radius: 0.9rem; border: 1px solid rgb(255 255 255 / 0.1); background: rgb(0 0 0 / 0.35); font-size: 1.5rem; font-weight: 700; color: rgb(250 250 250); transition: border-color 0.15s, box-shadow 0.15s; }
+      .pin-cell.is-filled { border-color: rgb(30 215 96 / 0.45); }
+      .pin-cell.is-active { border-color: rgb(30 215 96 / 0.8); box-shadow: 0 0 0 4px rgb(30 215 96 / 0.15); }
+      .tag-check { display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 0.7rem; border: 1px solid rgb(255 255 255 / 0.09); background: rgb(255 255 255 / 0.03); padding: 0.4rem 0.7rem; font-size: 0.8125rem; font-weight: 500; color: rgb(212 212 216); cursor: pointer; }
+      .tag-check:has(input:checked) { border-color: rgb(30 215 96 / 0.4); background: rgb(30 215 96 / 0.1); color: rgb(209 250 229); }
+
+      .doc-stage { max-height: 80vh; overflow: auto; border-radius: 1.25rem; border: 1px solid rgb(255 255 255 / 0.07); background: #2a2d33; padding: 1.25rem; }
+      .doc-stage > div { min-width: 560px; }
+
+      .drop-col { transition: background-color 0.15s, box-shadow 0.15s; }
+      .drop-col.drop-hover { background: rgb(30 215 96 / 0.06); box-shadow: inset 0 0 0 1.5px rgb(30 215 96 / 0.5); }
+      .release-card { border-radius: 0.9rem; border: 1px solid rgb(255 255 255 / 0.08); background: rgb(12 14 18 / 0.88); padding: 0.9rem; cursor: grab; transition: border-color 0.15s, opacity 0.15s; }
+      .release-card:hover { border-color: rgb(255 255 255 / 0.16); }
+      .release-card.is-dragging { opacity: 0.4; }
+      .chev { transition: transform 0.2s ease; }
+      details > summary { list-style: none; }
+      details > summary::-webkit-details-marker { display: none; }
+      details[open] > summary .chev { transform: rotate(180deg); }
+
+      .tl-row { display: grid; grid-template-columns: 15rem repeat(7, minmax(7.5rem, 1fr)); border-top: 1px solid rgb(255 255 255 / 0.06); }
+      .tl-head { border-top: 0; background: rgb(255 255 255 / 0.02); }
+      .tl-cell { display: flex; align-items: center; min-height: 4.75rem; padding: 0.6rem 0.45rem; border-left: 1px dashed rgb(255 255 255 / 0.06); }
+      .tl-item { display: flex; width: 100%; align-items: flex-start; gap: 0.5rem; border-radius: 0.7rem; border: 1px solid rgb(255 255 255 / 0.09); background: rgb(255 255 255 / 0.03); padding: 0.45rem 0.5rem; cursor: pointer; transition: border-color 0.15s, opacity 0.15s; }
+      .tl-item:hover { border-color: rgb(255 255 255 / 0.2); }
+      .tl-item.is-done { opacity: 0.55; }
+      .tl-gap { display: block; width: 100%; height: 2px; border-radius: 999px; background: rgb(255 255 255 / 0.05); }
+
+      .toast { display: flex; align-items: flex-start; gap: 0.65rem; border-radius: 1rem; border: 1px solid rgb(255 255 255 / 0.1); background: rgb(18 20 26 / 0.95); padding: 0.8rem 1rem; box-shadow: 0 20px 50px -18px rgb(0 0 0 / 0.9); font-size: 0.875rem; line-height: 1.45; color: rgb(228 228 231); }
+      .toast.is-error { border-color: rgb(244 63 94 / 0.35); }
+    }
+  </style>
+  <style>
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    @keyframes shake {
+      10%, 90% { transform: translateX(-1px); }
+      20%, 80% { transform: translateX(2px); }
+      30%, 50%, 70% { transform: translateX(-4px); }
+      40%, 60% { transform: translateX(4px); }
+    }
+    /* Entrance animation runs only when a page is entered, never on in-page re-renders. */
+    .view-enter .rise, .rise-now { animation: rise 0.35s ease-out both; }
+    .shake { animation: shake 0.45s ease-in-out; }
+    .toast { animation: rise 0.3s ease-out both; }
+    #toast-root { position: fixed; right: 1rem; bottom: 1rem; z-index: 60; display: flex; flex-direction: column; gap: 0.5rem; width: min(92vw, 24rem); }
+    #print-root { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+    @media print {
+      @page { size: A4; margin: 14mm; }
+      html, body { background: #fff !important; }
+      html { color-scheme: light; }
+      #app, #modal-root, #toast-root { display: none !important; }
+      #print-root { display: block !important; }
+    }
+  </style>
+</head>
+<body class="h-full bg-canvas font-sans text-zinc-200 antialiased">
+  <noscript><p class="p-8 text-center text-sm text-zinc-400">7H Manager needs JavaScript enabled in your browser.</p></noscript>
+  <div id="app" class="min-h-screen">
+    <div class="grid min-h-screen place-items-center text-sm text-zinc-500">Loading secure workspace…</div>
+  </div>
+  <div id="modal-root"></div>
+  <div id="toast-root" aria-live="polite"></div>
+  <div id="print-root" aria-hidden="true"></div>
+
+<script>
+(() => {
+  'use strict';
+
+  /* =====================================================================
+     Configuration
+     ===================================================================== */
+  const DEFAULT_PIN = '7H2026';
+  const AUTH_KEY = '7h-manager.auth.v1';
+  const DATA_KEY = '7h-manager.data.v1';
+  const SESSION_MS = 12 * 60 * 60 * 1000;
+  const MAX_FAILS = 5;
+  const LOCK_MS = 60 * 1000;
+  const PBKDF2_ITER = 150000;
+  const PIN_RE = /^[A-Za-z0-9]{6}$/;
+
+  const RELEASE_STATUSES = ['In Production', 'Uploaded to ONErpm', 'Campaign Active', 'Released'];
+  const DEMO_STATUSES = ['New', 'Reviewing', 'Shortlisted', 'Signed', 'Declined'];
+  const CONTRACT_STATUSES = ['Active', 'Renewal Due', 'Negotiating', 'Draft'];
+  const SPLIT_STATUSES = ['Draft', 'Sent for Signature', 'Signed'];
+  const GENRES = ['Afrobeats', 'Afro-Pop', 'Dancehall', 'Amapiano', 'Hip-Hop', 'R&B', 'Gospel', 'Reggae', 'Other'];
+  const CONTACT_CATS = ['Distribution', 'Pitching', 'Rights & Royalties', 'Radio', 'Streaming', 'Press', 'Booking', 'Other'];
+  const LINKS = [['spotify', 'Spotify'], ['apple', 'Apple Music'], ['youtube', 'YouTube'], ['instagram', 'Instagram'], ['tiktok', 'TikTok']];
+  const LINK_TPL = { spotify: '', apple: '', youtube: '', instagram: '', tiktok: '' };
+  const SPLIT_TEXT = { track: 120, project: 120, isrc: 20, artist: 80, producer: 80, governingLaw: 80 };
+
+  const NAV = [
+    { id: 'overview', label: 'Overview', icon: 'layout-dashboard' },
+    { id: 'roster', label: 'Roster & Contracts', icon: 'users' },
+    { id: 'releases', label: 'Release Planner', icon: 'calendar-days' },
+    { id: 'demos', label: 'A&R Demo Inbox', icon: 'inbox' },
+    { id: 'playbooks', label: 'Strategy & Playbooks', icon: 'book-open' },
+    { id: 'settings', label: 'Settings', icon: 'settings' },
+  ];
+
+  /* Six-week runway. `days` = days before release day that the task is due. */
+  const CHECKS = [
+    { key: 'w6', days: 42, week: 'Week 6', short: 'Master & art lock', label: 'Final master and cover art locked.' },
+    { key: 'w4', days: 28, week: 'Week 4', short: 'Submit to ONErpm', label: 'Submitted to ONErpm / distributor.' },
+    { key: 'w3', days: 21, week: 'Week 3', short: 'Spotify + Matchfy pitch', label: 'Pitch to Spotify for Artists and Matchfy.io.' },
+    { key: 'w2', days: 14, week: 'Week 2', short: 'TikTok teasers + press', label: 'TikTok snippets shot and press release drafted.' },
+    { key: 'rd', days: 0, week: 'Release Day', short: 'Smart link + roster blitz', label: 'Smart-link drop and roster social blitz.' },
+  ];
+  const TIMELINE = [
+    { label: 'Week 6', key: 'w6' }, { label: 'Week 5', key: null }, { label: 'Week 4', key: 'w4' },
+    { label: 'Week 3', key: 'w3' }, { label: 'Week 2', key: 'w2' }, { label: 'Week 1', key: null },
+    { label: 'Release day', key: 'rd' },
+  ];
+
+  const TONES = {
+    sky: 'border-sky-400/25 bg-sky-400/10 text-sky-300',
+    amber: 'border-amber-400/25 bg-amber-400/10 text-amber-300',
+    violet: 'border-violet-400/25 bg-violet-400/10 text-violet-300',
+    fuchsia: 'border-fuchsia-400/25 bg-fuchsia-400/10 text-fuchsia-300',
+    emerald: 'border-emerald-400/25 bg-emerald-400/10 text-emerald-300',
+    rose: 'border-rose-400/25 bg-rose-400/10 text-rose-300',
+    zinc: 'border-white/10 bg-white/[0.04] text-zinc-300',
+  };
+  const TEXT = { sky: 'text-sky-300', amber: 'text-amber-300', violet: 'text-violet-300', fuchsia: 'text-fuchsia-300', emerald: 'text-emerald-300', rose: 'text-rose-300', zinc: 'text-zinc-300' };
+  const DOT = { sky: 'bg-sky-400', amber: 'bg-amber-400', violet: 'bg-violet-400', fuchsia: 'bg-fuchsia-400', emerald: 'bg-emerald-400', rose: 'bg-rose-400', zinc: 'bg-zinc-500' };
+  const STATUS_TONE = {
+    New: 'sky', Reviewing: 'amber', Shortlisted: 'violet', Signed: 'emerald', Declined: 'rose',
+    'In Production': 'amber', 'Uploaded to ONErpm': 'sky', 'Campaign Active': 'fuchsia', Released: 'emerald',
+    Active: 'emerald', 'Renewal Due': 'amber', Negotiating: 'sky', Draft: 'zinc', 'Sent for Signature': 'sky',
+  };
+  const GRADS = [
+    'linear-gradient(135deg,#1ed760,#22d3ee)',
+    'linear-gradient(135deg,#a78bfa,#f472b6)',
+    'linear-gradient(135deg,#fbbf24,#fb7185)',
+    'linear-gradient(135deg,#38bdf8,#818cf8)',
+    'linear-gradient(135deg,#34d399,#a3e635)',
+  ];
+
+  const DIRECTORY = [
+    { org: 'ONErpm', category: 'Distribution', purpose: 'Digital distribution and marketing partner. Every release is delivered here (Week 4).', url: 'https://onerpm.com', notes: '' },
+    { org: 'Spotify for Artists', category: 'Pitching', purpose: 'Editorial pitch for one unreleased track per release. Spotify’s stated minimum lead time is 7 days, so the SOP pitches in Week 3.', url: 'https://artists.spotify.com', notes: 'Verify current pitch rules in Spotify for Artists.' },
+    { org: 'Matchfy.io', category: 'Pitching', purpose: 'Connects artists with independent Spotify playlist curators (Week 3).', url: 'https://matchfy.io', notes: '' },
+    { org: 'Apple Music for Artists', category: 'Pitching', purpose: 'Artist profile, analytics and editorial pitching. Confirm current pitch access with ONErpm.', url: 'https://artists.apple.com', notes: '' },
+    { org: 'Uganda Performing Rights Society (UPRS)', category: 'Rights & Royalties', purpose: 'Collective management body for performance and mechanical royalties. Ask about registration and split-sheet requirements.', url: 'https://x.com/UgandaPRS', notes: 'Verify membership requirements before relying on this.' },
+    { org: 'Uganda Registration Services Bureau (URSB)', category: 'Rights & Royalties', purpose: 'Copyright registration and recordal for musical works in Uganda.', url: 'https://ursb.go.ug', notes: '' },
+    { org: 'Kampala FM radio', category: 'Radio', purpose: 'Capital FM, Galaxy FM, Beat FM and other Kampala stations. Contact each station’s music or programme team.', url: '', notes: 'Verify current contacts before outreach.' },
+    { org: 'Boomplay Music', category: 'Streaming', purpose: 'Major African streaming platform. Check its artist and creator programmes.', url: 'https://www.boomplay.com', notes: '' },
+    { org: 'Audiomack', category: 'Streaming', purpose: 'Streaming platform popular with African audiences. Check artist tools and charts.', url: 'https://audiomack.com', notes: '' },
+    { org: 'YouTube Studio', category: 'Streaming', purpose: 'Uploads, metadata and analytics for music videos and Shorts.', url: 'https://studio.youtube.com', notes: '' },
+  ];
+
+  const SHEET_CSS = `
+.sheet{box-sizing:border-box;max-width:760px;margin:0 auto;padding:44px 50px;background:#fff;color:#111827;font:13px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;text-align:left;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.sheet *{box-sizing:border-box}
+.sheet .sh-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;border-bottom:2px solid #111827;padding-bottom:14px}
+.sheet .sh-brand{margin:0;font-size:10.5px;font-weight:700;letter-spacing:.24em;color:#6b7280}
+.sheet h1{margin:6px 0 0;font:800 21px/1.2 "Plus Jakarta Sans",Inter,system-ui,sans-serif;color:#111827;letter-spacing:-.01em}
+.sheet .sh-meta{display:grid;grid-template-columns:auto auto;gap:3px 14px;margin:0;font-size:12px;text-align:right}
+.sheet .sh-meta dt{color:#6b7280}
+.sheet .sh-meta dd{margin:0;font-weight:600}
+.sheet section{margin-top:22px;break-inside:avoid}
+.sheet h2{margin:0 0 8px;font:700 10.5px/1.3 "Plus Jakarta Sans",Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6b7280}
+.sheet table{width:100%;border-collapse:collapse}
+.sheet th,.sheet td{border-bottom:1px solid #e5e7eb;padding:7px 8px;text-align:left;vertical-align:top}
+.sheet thead th{border-bottom:1px solid #111827;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b7280}
+.sheet tfoot td{border-bottom:2px solid #111827;font-weight:800}
+.sheet table.kv th{width:19%;font-weight:600;color:#6b7280}
+.sheet .r{text-align:right;font-variant-numeric:tabular-nums}
+.sheet .ph{color:#9ca3af;font-style:italic}
+.sheet ol{margin:0;padding-left:18px}
+.sheet li{margin:0 0 6px}
+.sheet .sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px 32px;margin-top:30px}
+.sheet .sig{min-height:52px;border-top:1px solid #111827;padding-top:6px;font-size:12px}
+.sheet .sig small{display:block;color:#6b7280;font-size:11px}
+.sheet .sh-foot{margin-top:28px;border-top:1px solid #e5e7eb;padding-top:10px;font-size:10.5px;color:#6b7280}
+@media print{.sheet{padding:0;max-width:none}}
+`;
+
+  /* =====================================================================
+     Utilities
+     ===================================================================== */
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const ico = (name, cls = 'size-4') => `<i data-lucide="${name}" class="${cls}" aria-hidden="true"></i>`;
+  const str = (v, max = 500) => (v == null ? '' : String(v)).trim().slice(0, max);
+  const round2 = (n) => Math.round((Number(n) || 0) * 100) / 100;
+  const num = (v, d = 0) => { const n = typeof v === 'number' ? v : parseFloat(v); return Number.isFinite(n) ? Math.min(100, Math.max(0, round2(n))) : d; };
+  const fmtPct = (n) => String(round2(n));
+  const isoOk = (v) => (/^\d{4}-\d{2}-\d{2}$/.test(v || '') ? v : '');
+  const pick = (v, list, d) => (list.includes(v) ? v : d);
+  const uid = () => globalThis.crypto?.randomUUID?.() || `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 10)}`;
+  const clone = (o) => JSON.parse(JSON.stringify(o));
+  const pad = (n) => String(n).padStart(2, '0');
+  const toISO = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const parseISO = (s) => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+  const todayISO = () => toISO(new Date());
+  const addDays = (iso, n) => { const d = parseISO(iso); d.setDate(d.getDate() + n); return toISO(d); };
+  const daysUntil = (iso) => (iso ? Math.round((parseISO(iso) - parseISO(todayISO())) / 864e5) : NaN);
+  const fmtDate = (iso, o = { day: 'numeric', month: 'short', year: 'numeric' }) => (iso ? parseISO(iso).toLocaleDateString('en-GB', o) : '—');
+  const fmtLong = (iso) => (iso ? parseISO(iso).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' }) : '');
+  const fmtUGX = (n) => `UGX ${Math.round(Number(n) || 0).toLocaleString('en-US')}`;
+  const timeOf = (ms) => new Date(ms).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  const initials = (n) => (str(n, 80).split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join('') || '7H');
+  const gradStyle = (i) => `background:${GRADS[Math.abs(i) % GRADS.length]}`;
+  const byDate = (a, b) => (a.date || '9999-12-31').localeCompare(b.date || '9999-12-31');
+  const slug = (t) => (t || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'split-sheet';
+  const blankChecks = () => Object.fromEntries(CHECKS.map((c) => [c.key, false]));
+
+  function toUrl(v) {
+    const s = str(v, 500);
+    if (!s || /\s/.test(s)) return '';
+    let full = s;
+    if (!/^https?:\/\//i.test(s)) {
+      // Bare links must look like a hostname (for example open.spotify.com/...). Any other scheme is refused.
+      if (!/^[a-z0-9-]+(\.[a-z0-9-]+)+(:\d{1,5})?([/?#].*)?$/i.test(s)) return '';
+      full = `https://${s}`;
+    }
+    try {
+      const u = new URL(full);
+      if (u.protocol !== 'https:' && u.protocol !== 'http:') return '';
+      if (!u.hostname.includes('.') && u.hostname !== 'localhost') return '';
+      return u.href;
+    } catch {
+      return '';
+    }
+  }
+  function contactLink(c) {
+    const v = str(c, 120);
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return `mailto:${v}`;
+    const digits = v.replace(/\D/g, '');
+    if (/^\+?[\d][\d\s()-]{7,}$/.test(v) && digits.length >= 9) return `https://wa.me/${digits}`;
+    return '';
+  }
+
+  function icons() {
+    try { window.lucide?.createIcons({ attrs: { 'stroke-width': 1.75 } }); } catch { /* icons are decorative */ }
+  }
+
+  const storeGet = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
+  const storeSet = (k, v) => { try { localStorage.setItem(k, v); return true; } catch { return false; } };
+
+  /* =====================================================================
+     Auth: salted PBKDF2 PIN hash, lockout, sliding session
+     ===================================================================== */
+  const enc = new TextEncoder();
+  const hex = (buf) => Array.from(new Uint8Array(buf), (b) => b.toString(16).padStart(2, '0')).join('');
+  const unhex = (h) => Uint8Array.from(h.match(/../g) || [], (x) => parseInt(x, 16));
+  const rand = (n = 16) => hex(crypto.getRandomValues(new Uint8Array(n)));
+  async function derive(pin, saltHex, iterations) {
+    const key = await crypto.subtle.importKey('raw', enc.encode(String(pin).toUpperCase()), 'PBKDF2', false, ['deriveBits']);
+    const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: unhex(saltHex), iterations }, key, 256);
+    return hex(bits);
+  }
+  const readAuth = () => { try { return JSON.parse(storeGet(AUTH_KEY)) || null; } catch { return null; } };
+  const writeAuth = (a) => storeSet(AUTH_KEY, JSON.stringify(a));
+  const isUnlocked = () => !!(auth && auth.session && Number(auth.session.exp) > Date.now());
+  const normPin = (v) => String(v ?? '').trim().toUpperCase();
+
+  async function ensureAuth() {
+    auth = readAuth();
+    if (auth && auth.salt && auth.hash && auth.iter) return;
+    const salt = rand(16);
+    auth = { salt, iter: PBKDF2_ITER, hash: await derive(DEFAULT_PIN, salt, PBKDF2_ITER), fails: 0, lockUntil: 0, session: null, changedAt: '' };
+    writeAuth(auth);
+  }
+  function startSession() {
+    auth.fails = 0;
+    auth.lockUntil = 0;
+    auth.session = { exp: Date.now() + SESSION_MS };
+    writeAuth(auth);
+  }
+  function endSession() {
+    if (!auth) return;
+    auth.session = null;
+    writeAuth(auth);
+  }
+  function touchSession() {
+    if (!auth || !isUnlocked()) return;
+    if (auth.session.exp - Date.now() < SESSION_MS - 60 * 1000) {
+      auth.session.exp = Date.now() + SESSION_MS;
+      writeAuth(auth);
+    }
+  }
+  const lockMsg = () => `Too many incorrect attempts. Try again in ${Math.max(1, Math.ceil((auth.lockUntil - Date.now()) / 1000))}s.`;
+  async function tryUnlock(pin) {
+    if (auth.lockUntil > Date.now()) return { ok: false, msg: lockMsg() };
+    const hash = await derive(pin, auth.salt, auth.iter || PBKDF2_ITER);
+    if (hash === auth.hash) { startSession(); return { ok: true }; }
+    auth.fails = (auth.fails || 0) + 1;
+    if (auth.fails >= MAX_FAILS) {
+      auth.fails = 0;
+      auth.lockUntil = Date.now() + LOCK_MS;
+      writeAuth(auth);
+      return { ok: false, msg: lockMsg() };
+    }
+    writeAuth(auth);
+    const left = MAX_FAILS - auth.fails;
+    return { ok: false, msg: `Incorrect PIN. ${left} attempt${left === 1 ? '' : 's'} left before a 60-second lockout.` };
+  }
+  async function changePin(form) {
+    const f = Object.fromEntries(new FormData(form).entries());
+    const cur = normPin(f.current);
+    const next = normPin(f.next);
+    const conf = normPin(f.confirm);
+    if (!PIN_RE.test(cur)) return toast('Enter your current 6-character PIN.', 'error');
+    if (!PIN_RE.test(next)) return toast('The new PIN must be exactly 6 letters or numbers.', 'error');
+    if (next !== conf) return toast('The new PIN and its confirmation do not match.', 'error');
+    if (next === DEFAULT_PIN) return toast('Choose a PIN other than the default.', 'error');
+    try {
+      const check = await derive(cur, auth.salt, auth.iter || PBKDF2_ITER);
+      if (check !== auth.hash) return toast('The current PIN is incorrect.', 'error');
+      const salt = rand(16);
+      auth.salt = salt;
+      auth.iter = PBKDF2_ITER;
+      auth.hash = await derive(next, salt, PBKDF2_ITER);
+      auth.changedAt = new Date().toISOString();
+      writeAuth(auth);
+      form.reset();
+      toast('PIN updated. Use the new PIN the next time you unlock.');
+    } catch {
+      toast('Could not update the PIN in this browser.', 'error');
+    }
+  }
+
+  /* =====================================================================
+     Data model: seed, normalise, load, save
+     ===================================================================== */
+  let db = null;
+  let auth = null;
+  let shellReady = false;
+  let pendingNotice = '';
+  let pendingScroll = null;
+  let relView = 'board';
+  let demoFilter = 'All';
+  let demoQuery = '';
+  const detailsState = {};
+  let dragId = null;
+  let modalDraft = null;
+  let modalSplitId = null;
+  let modalPrev = null;
+  let confirmFn = null;
+  let saveTimer = null;
+  let busy = false;
+  let lockTimer = null;
+  let navOpen = false;
+
+  function blankSplit() {
+    return {
+      id: '', track: '', project: '', isrc: '', date: todayISO(), artist: '', producer: '',
+      governingLaw: 'Republic of Uganda', master: { artist: 50, producer: 20, label: 30 },
+      writers: [{ name: '', pct: 100 }], status: 'Draft', createdAt: '', updatedAt: '',
+    };
+  }
+  function emptyData() {
+    return { sample: false, roster: [], releases: [], demos: [], splits: [], contacts: [], draft: blankSplit() };
+  }
+  function searchLinks(name) {
+    const q = encodeURIComponent(`${name} Kampala`);
+    return {
+      spotify: `https://open.spotify.com/search/${encodeURIComponent(name)}`,
+      apple: `https://music.apple.com/search?term=${q}`,
+      youtube: `https://www.youtube.com/results?search_query=${q}`,
+      instagram: '',
+      tiktok: '',
+    };
+  }
+  function seedData() {
+    const now = new Date().toISOString();
+    const ago = (n) => new Date(Date.now() - n * 864e5).toISOString();
+    const mkArtist = (name, genres) => ({
+      id: uid(), name, location: 'Kampala, UG', genres,
+      bio: 'Kampala-based artist on the 7H Music Group roster. Replace this placeholder with the official bio.',
+      links: searchLinks(name), contract: 'Active', contractEnd: '', notes: '',
+    });
+    const roster = [
+      mkArtist('Baranga', ['Afro-Pop', 'Afrobeats']),
+      mkArtist('Mr Fallback', ['Dancehall', 'Afrobeats']),
+      mkArtist('Smokie Cee', ['Afro-Pop', 'Amapiano']),
+      mkArtist('Mike 1ne', ['Hip-Hop', 'Afrobeats']),
+    ];
+    const mkRelease = (title, artist, date, status, done, notes = '') => ({
+      id: uid(), title, artist, date, status, notes, createdAt: now,
+      checks: Object.fromEntries(CHECKS.map((c) => [c.key, done.includes(c.key)])),
+    });
+    const releases = [
+      mkRelease('Kampala Nights', 'Baranga', addDays(todayISO(), 42), 'In Production', [], 'Sample record. Replace with the real project details.'),
+      mkRelease('Fallback Season', 'Mr Fallback', addDays(todayISO(), 21), 'Uploaded to ONErpm', ['w6', 'w4']),
+      mkRelease('Kikuubo Riddim', 'Smokie Cee', todayISO(), 'Campaign Active', ['w6', 'w4', 'w3', 'w2']),
+      mkRelease('Neon Ebony', 'Mike 1ne', addDays(todayISO(), -10), 'Released', CHECKS.map((c) => c.key)),
+    ];
+    const mkDemo = (artist, track, genre, contact, status, notes, daysAgo) => ({
+      id: uid(), artist, track, genre, contact, link: '', status, notes, received: addDays(todayISO(), -daysAgo),
+    });
+    const demos = [
+      mkDemo('Ssali Flow', 'Kisubi Nights', 'Afro-Pop', '+256 700 000 001', 'New', 'Strong chorus hook. Ask for stems.', 2),
+      mkDemo('Akello Sounds', 'Kabalagala Sunday', 'Dancehall', 'akello.sounds@example.com', 'Shortlisted', 'Great bounce for dancehall. Book a studio session.', 5),
+      mkDemo('DJ Mutima', 'Nakasero Heat', 'Afrobeats', '+256 700 000 002', 'New', 'Club-tested in two venues. Needs a clean mix.', 1),
+      mkDemo('Nalongo Beats', 'Ggaba Waves', 'Amapiano', '+256 700 000 003', 'Reviewing', 'Goes to the A&R panel on Thursday.', 9),
+      mkDemo('Kato Grey', 'Owino Market Blues', 'Hip-Hop', '+256 700 000 004', 'Signed', 'Sample signing. Contract tracked in the roster.', 30),
+      mkDemo('Lady Nsubuga', 'Kiteezi Rain', 'R&B', '+256 700 000 005', 'Declined', 'Good vocals, but not a fit for the current roster.', 21),
+    ];
+    const splits = [{
+      id: uid(), track: 'Neon Ebony', project: 'Neon Ebony (single)', isrc: '', date: addDays(todayISO(), -10),
+      artist: 'Mike 1ne', producer: 'Studio producer', governingLaw: 'Republic of Uganda',
+      master: { artist: 50, producer: 20, label: 30 },
+      writers: [{ name: 'Mike 1ne', pct: 50 }, { name: 'Studio producer', pct: 50 }],
+      status: 'Signed', createdAt: ago(10), updatedAt: ago(10),
+    }];
+    const contacts = DIRECTORY.map((c) => ({ id: uid(), org: c.org, category: c.category, purpose: c.purpose, url: c.url, notes: c.notes }));
+    const draft = {
+      ...blankSplit(), track: 'Kampala Nights', project: 'Kampala Nights (single)', artist: 'Baranga', producer: 'Studio producer',
+      writers: [{ name: 'Baranga', pct: 60 }, { name: 'Studio producer', pct: 40 }],
+    };
+    return { sample: true, roster, releases, demos, splits, contacts, draft };
+  }
+  function normSplit(x) {
+    const m = x.master && typeof x.master === 'object' ? x.master : {};
+    return {
+      id: str(x.id, 60) || uid(),
+      track: str(x.track, 120), project: str(x.project, 120), isrc: str(x.isrc, 20),
+      date: isoOk(x.date), artist: str(x.artist, 80), producer: str(x.producer, 80),
+      governingLaw: str(x.governingLaw, 80) || 'Republic of Uganda',
+      master: { artist: num(m.artist, 0), producer: num(m.producer, 0), label: num(m.label, 0) },
+      writers: (Array.isArray(x.writers) ? x.writers : [])
+        .filter((w) => w && typeof w === 'object').slice(0, 12)
+        .map((w) => ({ name: str(w.name, 80), pct: num(w.pct, 0) })),
+      status: pick(x.status, SPLIT_STATUSES, 'Draft'),
+      createdAt: str(x.createdAt, 40), updatedAt: str(x.updatedAt, 40),
+    };
+  }
+  function normalizeData(raw) {
+    const d = raw && typeof raw === 'object' ? raw : {};
+    const list = (v, fn) => (Array.isArray(v) ? v.slice(0, 2000).filter((x) => x && typeof x === 'object').map(fn) : []);
+    const normLinks = (v) => {
+      const o = { ...LINK_TPL };
+      if (v && typeof v === 'object') LINKS.forEach(([k]) => { o[k] = toUrl(v[k]); });
+      return o;
+    };
+    const normChecks = (c) => Object.fromEntries(CHECKS.map((k) => [k.key, !!(c && c[k.key])]));
+    const roster = list(d.roster, (x) => ({
+      id: str(x.id, 60) || uid(), name: str(x.name, 80), location: str(x.location, 120) || 'Kampala, UG',
+      genres: (Array.isArray(x.genres) ? x.genres : []).map((g) => str(g, 40)).filter(Boolean).slice(0, 6),
+      bio: str(x.bio, 1500), links: normLinks(x.links), contract: pick(x.contract, CONTRACT_STATUSES, 'Draft'),
+      contractEnd: isoOk(x.contractEnd), notes: str(x.notes, 2000),
+    })).filter((a) => a.name);
+    const releases = list(d.releases, (x) => ({
+      id: str(x.id, 60) || uid(), title: str(x.title, 120), artist: str(x.artist, 80), date: isoOk(x.date),
+      status: pick(x.status, RELEASE_STATUSES, 'In Production'), checks: normChecks(x.checks),
+      notes: str(x.notes, 2000), createdAt: str(x.createdAt, 40),
+    })).filter((r) => r.title);
+    const demos = list(d.demos, (x) => ({
+      id: str(x.id, 60) || uid(), artist: str(x.artist, 80), track: str(x.track, 120),
+      genre: pick(x.genre, GENRES, 'Other'), contact: str(x.contact, 120), link: toUrl(x.link),
+      status: pick(x.status, DEMO_STATUSES, 'New'), notes: str(x.notes, 2000), received: isoOk(x.received) || todayISO(),
+    })).filter((x) => x.artist || x.track);
+    const splits = list(d.splits, normSplit).filter((s) => s.track);
+    const contacts = list(d.contacts, (x) => ({
+      id: str(x.id, 60) || uid(), org: str(x.org, 120), category: pick(x.category, CONTACT_CATS, 'Other'),
+      purpose: str(x.purpose, 500), url: toUrl(x.url), notes: str(x.notes, 500),
+    })).filter((c) => c.org);
+    const draft = d.draft && typeof d.draft === 'object' ? { ...normSplit(d.draft), id: '' } : blankSplit();
+    return { sample: d.sample === true, roster, releases, demos, splits, contacts, draft };
+  }
+  function loadData() {
+    const raw = storeGet(DATA_KEY);
+    if (!raw) return seedData();
+    try {
+      return normalizeData(JSON.parse(raw));
+    } catch {
+      storeSet(`${DATA_KEY}.corrupt.${Date.now()}`, raw);
+      pendingNotice = 'Saved data could not be read, so sample data was loaded. A copy of the unreadable data was kept in this browser.';
+      return seedData();
+    }
+  }
+  function saveDb() {
+    if (storeSet(DATA_KEY, JSON.stringify(db))) return true;
+    toast('Browser storage is full or blocked. Your latest change may not be saved.', 'error');
+    return false;
+  }
+  const scheduleSave = () => { clearTimeout(saveTimer); saveTimer = setTimeout(saveDb, 250); };
+  const touchDraft = (scope) => { if (scope === 'inline') scheduleSave(); };
+  const draftOf = (scope) => (scope === 'modal' ? modalDraft : scope === 'inline' ? db.draft : null);
+
+  /* Release helpers */
+  const dueOf = (r, c) => (r.date ? addDays(r.date, -c.days) : '');
+  const doneCount = (r) => CHECKS.filter((c) => r.checks?.[c.key]).length;
+  function countdownInfo(r) {
+    if (r.status === 'Released') return { text: 'Released', tone: 'emerald' };
+    const n = daysUntil(r.date);
+    if (Number.isNaN(n)) return { text: 'No date set', tone: 'zinc' };
+    if (n > 0) return { text: `T-${n} day${n === 1 ? '' : 's'}`, tone: n <= 14 ? 'amber' : 'zinc' };
+    if (n === 0) return { text: 'Release day', tone: 'fuchsia' };
+    return { text: 'Date passed', tone: 'rose' };
+  }
+  function openTasks(horizon) {
+    const out = [];
+    db.releases.forEach((r) => {
+      if (r.status === 'Released' || !r.date) return;
+      CHECKS.forEach((c) => {
+        if (r.checks?.[c.key]) return;
+        const due = dueOf(r, c);
+        const n = daysUntil(due);
+        if (n <= horizon) out.push({ r, c, due, n });
+      });
+    });
+    return out.sort((a, b) => a.due.localeCompare(b.due));
+  }
+
+  /* Split helpers */
+  const masterTotal = (s) => round2(s.master.artist + s.master.producer + s.master.label);
+  const pubTotal = (s) => round2(s.writers.reduce((a, w) => a + (Number(w.pct) || 0), 0));
+  function splitBlockers(s) {
+    const out = [];
+    if (!s.track.trim()) out.push('Add a track title before saving.');
+    if (round2(masterTotal(s)) !== 100) out.push(`Master shares must total 100% (currently ${fmtPct(masterTotal(s))}%).`);
+    if (round2(pubTotal(s)) !== 100) out.push(`Writer shares must total 100% (currently ${fmtPct(pubTotal(s))}%).`);
+    return out;
+  }
+  function termsFor(s) {
+    const law = s.governingLaw.trim() || '[jurisdiction]';
+    return [
+      `The master ownership and publishing shares above describe how income from ${s.track.trim() || 'the recording'} is divided, unless a later written agreement replaces this sheet.`,
+      'Each party confirms it holds the rights it contributes and that the credits listed are accurate.',
+      'Digital distribution is handled through ONErpm or another agreed distributor. Each party receives its share as the distributor reports it.',
+      'Any change to a share must be agreed in writing and signed by every party before release.',
+      `Governed by the laws of ${law}. Performing-rights and copyright registrations (for example with UPRS or URSB) are each party’s own responsibility.`,
+    ];
+  }
+  function signatories(s) {
+    const people = [['Artist', s.artist.trim() || '[Artist name]'], ['Producer', s.producer.trim() || '[Producer name]']];
+    const taken = new Set([s.artist, s.producer].map((n) => n.trim().toLowerCase()));
+    s.writers.forEach((w) => {
+      const n = w.name.trim();
+      if (n && !taken.has(n.toLowerCase())) { taken.add(n.toLowerCase()); people.push(['Writer', n]); }
+    });
+    people.push(['Label', '7H Music Group · authorised signatory']);
+    return people;
+  }
+
+  /* =====================================================================
+     UI primitives
+     ===================================================================== */
+  const badge = (label, tone) => `<span class="badge ${TONES[tone || STATUS_TONE[label] || 'zinc']}">${esc(label)}</span>`;
+  const field = (label, control, cls = '') => `<label class="block min-w-0 ${cls}"><span class="label">${esc(label)}</span>${control}</label>`;
+  const formData = (form) => Object.fromEntries(new FormData(form).entries());
+  const logoMark = (px = 40) => `<span class="logo-mark" style="width:${px}px;height:${px}px;font-size:${Math.round(px * 0.34)}px" aria-hidden="true">7H</span>`;
+  const progressBar = (frac) => `<div class="h-1.5 flex-1 overflow-hidden rounded-full bg-white/[0.08]"><div class="h-full rounded-full bg-brand transition-[width] duration-500" style="width:${Math.round(Math.min(1, Math.max(0, frac)) * 100)}%"></div></div>`;
+  const totalChip = (v) => {
+    const ok = round2(v) === 100;
+    return `<span class="font-semibold ${ok ? 'text-emerald-300' : 'text-rose-300'}">Total ${fmtPct(v)}%</span><span class="text-zinc-500"> · ${ok ? 'balanced' : 'must equal 100%'}</span>`;
+  };
+  function pageHead(eyebrow, title, sub, actions = '') {
+    return `
+    <header class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+      <div class="min-w-0">
+        <p class="eyebrow">${esc(eyebrow)}</p>
+        <h1 class="page-title mt-2">${esc(title)}</h1>
+        <p class="page-sub max-w-2xl">${esc(sub)}</p>
+      </div>
+      ${actions ? `<div class="flex flex-wrap items-center gap-2">${actions}</div>` : ''}
+    </header>`;
+  }
+  function cardHead(title, sub, href, linkText) {
+    return `
+    <div class="flex items-start justify-between gap-4">
+      <div class="min-w-0"><h2 class="section-title">${esc(title)}</h2><p class="mt-1 text-sm text-zinc-500">${esc(sub)}</p></div>
+      ${href ? `<a href="${href}" class="btn btn-ghost btn-sm shrink-0">${esc(linkText)} ${ico('arrow-right', 'size-3.5')}</a>` : ''}
+    </div>`;
+  }
+  function emptyState(icon, title, text) {
+    return `
+    <div class="rounded-2xl border border-dashed border-white/10 px-6 py-8 text-center">
+      <span class="mx-auto grid size-10 place-items-center rounded-xl bg-white/[0.04] text-zinc-400">${ico(icon, 'size-5')}</span>
+      <p class="mt-3 text-sm font-semibold text-zinc-200">${esc(title)}</p>
+      <p class="mt-1 text-xs text-zinc-500">${esc(text)}</p>
+    </div>`;
+  }
+  const metricCard = (icon, label, value, sub, tone) => `
+    <div class="card rise p-5" data-metric="${esc(label)}">
+      <div class="flex items-center justify-between gap-3">
+        <span class="grid size-9 place-items-center rounded-xl border ${TONES[tone]}">${ico(icon, 'size-4')}</span>
+        <span class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">${esc(label)}</span>
+      </div>
+      <p class="num mt-4 font-display text-3xl font-extrabold tracking-tight text-zinc-50">${esc(value)}</p>
+      <p class="mt-1 truncate text-xs text-zinc-500">${sub}</p>
+    </div>`;
+  const sampleBanner = () => `
+    <div class="card-tight flex flex-wrap items-center gap-3 p-4">
+      <span class="grid size-9 shrink-0 place-items-center rounded-xl bg-amber-400/10 text-amber-300">${ico('info', 'size-4')}</span>
+      <p class="min-w-0 flex-1 text-sm text-zinc-300">You are viewing <strong class="text-zinc-100">sample data</strong>. Edit or delete records as you go, or restore the defaults from Settings.</p>
+      <button type="button" class="btn btn-ghost btn-sm" data-action="dismiss-sample">Dismiss</button>
+    </div>`;
+
+  function toast(msg, tone = 'ok') {
+    const el = document.createElement('div');
+    el.className = `toast${tone === 'error' ? ' is-error' : ''}`;
+    el.innerHTML = `${ico(tone === 'error' ? 'circle-alert' : 'circle-check', `size-4 mt-0.5 shrink-0 ${tone === 'error' ? 'text-rose-300' : 'text-emerald-300'}`)}<span class="min-w-0"></span>`;
+    el.querySelector('span:last-child').textContent = msg;
+    $('#toast-root').append(el);
+    icons();
+    setTimeout(() => el.remove(), 3600);
+  }
+
+  const isModalOpen = () => !!$('#modal-root').firstElementChild;
+  function openModal(o) {
+    const root = $('#modal-root');
+    if (!isModalOpen()) modalPrev = document.activeElement;
+    const Tag = o.form ? 'form' : 'div';
+    root.innerHTML = `
+      <div class="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 p-3 backdrop-blur-sm sm:items-center sm:p-6" data-backdrop>
+        <${Tag} ${o.form ? `data-form="${o.form}"` : ''} role="dialog" aria-modal="true" aria-labelledby="modal-title" class="rise-now my-auto flex w-full ${o.wide ? 'max-w-6xl' : 'max-w-lg'} flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#0b0d11] shadow-2xl shadow-black/60">
+          <div class="flex items-start justify-between gap-4 border-b border-white/[0.07] px-6 py-5">
+            <div class="min-w-0">
+              <h2 id="modal-title" class="font-display text-lg font-bold text-zinc-50">${esc(o.title)}</h2>
+              ${o.subtitle ? `<p class="mt-1 text-sm text-zinc-400">${esc(o.subtitle)}</p>` : ''}
+            </div>
+            <button type="button" class="icon-btn -mr-2 -mt-1" data-action="close-modal" aria-label="Close">${ico('x')}</button>
+          </div>
+          <div class="max-h-[70vh] overflow-y-auto px-6 py-5">${o.body}</div>
+          ${o.footer ? `<div class="flex flex-wrap items-center justify-end gap-2 border-t border-white/[0.07] bg-black/20 px-6 py-4">${o.footer}</div>` : ''}
+        </${Tag}>
+      </div>`;
+    document.body.style.overflow = 'hidden';
+    icons();
+    const first = root.querySelector('input:not([type="hidden"]):not([disabled]), select, textarea');
+    setTimeout(() => first?.focus({ preventScroll: true }), 40);
+  }
+  function closeModal() {
+    if (!isModalOpen()) return;
+    $('#modal-root').innerHTML = '';
+    document.body.style.overflow = '';
+    modalDraft = null;
+    modalSplitId = null;
+    confirmFn = null;
+    if (modalPrev && document.contains(modalPrev)) modalPrev.focus({ preventScroll: true });
+    modalPrev = null;
+  }
+  function confirmBox({ title, message, confirmText = 'Confirm', danger = false, onYes }) {
+    confirmFn = onYes;
+    openModal({
+      title,
+      body: `<p class="text-sm leading-relaxed text-zinc-300">${esc(message)}</p>`,
+      footer: `<button type="button" class="btn btn-ghost" data-action="close-modal">Cancel</button><button type="button" class="btn ${danger ? 'btn-danger' : 'btn-primary'}" data-action="confirm-yes">${esc(confirmText)}</button>`,
+    });
+  }
+  function trapFocus(e) {
+    const dlg = $('#modal-root [role="dialog"]');
+    if (!dlg) return;
+    const els = $$('button:not([disabled]), a[href], input:not([type="hidden"]):not([disabled]), select:not([disabled]), textarea:not([disabled])', dlg);
+    if (!els.length) return;
+    const first = els[0];
+    const last = els[els.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
+  function downloadFile(name, mime, content) {
+    const url = URL.createObjectURL(new Blob([content], { type: mime }));
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.append(a);
+    a.click();
+    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+  }
+  function printSheet(html) {
+    const root = $('#print-root');
+    root.innerHTML = html;
+    const done = () => { root.innerHTML = ''; window.removeEventListener('afterprint', done); };
+    window.addEventListener('afterprint', done);
+    setTimeout(() => window.print(), 80);
+  }
+  async function copyText(text) {
+    let ok = false;
+    try {
+      await navigator.clipboard.writeText(text);
+      ok = true;
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.append(ta);
+      ta.select();
+      try { ok = document.execCommand('copy'); } catch { ok = false; }
+      ta.remove();
+    }
+    toast(ok ? 'Copied to clipboard.' : 'Copy failed. Select the text and copy it manually.', ok ? 'ok' : 'error');
+  }
+
+  /* =====================================================================
+     Login
+     ===================================================================== */
+  function loginHTML() {
+    const locked = auth.lockUntil > Date.now();
+    return `
+    <div class="relative grid min-h-screen place-items-center overflow-hidden px-5 py-12">
+      <div class="pointer-events-none absolute -top-48 left-1/2 size-[40rem] -translate-x-1/2 rounded-full bg-brand/15 blur-3xl" aria-hidden="true"></div>
+      <div class="relative w-full max-w-md rise-now">
+        <div class="flex flex-col items-center text-center">
+          ${logoMark(64)}
+          <h1 class="mt-6 font-display text-2xl font-extrabold tracking-tight text-zinc-50">7H Music Group</h1>
+          <p class="mt-1 text-sm text-zinc-400">Internal manager · restricted access</p>
+        </div>
+        <form id="login-form" class="card mt-8 p-6 sm:p-8" autocomplete="off">
+          <label for="pin" class="label">Access PIN</label>
+          <div id="pin-cells" class="mt-2 grid cursor-text grid-cols-6 gap-2.5" aria-hidden="true">${'<span class="pin-cell"></span>'.repeat(6)}</div>
+          <input id="pin" name="pin" type="password" maxlength="6" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" class="sr-only" ${locked ? 'disabled' : ''} />
+          <p id="login-msg" class="mt-4 min-h-[1.25rem] text-sm text-rose-300" role="alert"></p>
+          <button id="login-btn" type="submit" class="btn btn-primary mt-4 w-full py-3" ${locked ? 'disabled' : ''}>${ico('lock-open')} Unlock dashboard</button>
+        </form>
+        <p class="mt-6 text-center text-xs leading-relaxed text-zinc-600">Your data stays in this browser. Change the PIN any time in Settings.</p>
+      </div>
+    </div>`;
+  }
+  function paintPin() {
+    const input = $('#pin');
+    if (!input) return;
+    const n = input.value.length;
+    const focused = document.activeElement === input;
+    $$('#pin-cells .pin-cell').forEach((cell, i) => {
+      cell.textContent = i < n ? '•' : '';
+      cell.classList.toggle('is-filled', i < n);
+      cell.classList.toggle('is-active', focused && i === Math.min(n, 5));
+    });
+  }
+  function showLoginMessage(msg, shake = true) {
+    const m = $('#login-msg');
+    if (m) m.textContent = msg;
+    const form = $('#login-form');
+    if (shake && form && msg) {
+      form.classList.remove('shake');
+      void form.offsetWidth;
+      form.classList.add('shake');
+    }
+  }
+  function lockoutTick() {
+    clearInterval(lockTimer);
+    lockTimer = null;
+    const input = $('#pin');
+    const btn = $('#login-btn');
+    if (!input || !btn) return;
+    const update = () => {
+      const left = Math.ceil((auth.lockUntil - Date.now()) / 1000);
+      const locked = left > 0;
+      input.disabled = locked;
+      btn.disabled = locked;
+      if (locked) showLoginMessage(`Too many incorrect attempts. Try again in ${left}s.`, false);
+      else {
+        const m = $('#login-msg');
+        if (m && m.textContent.startsWith('Too many')) showLoginMessage('', false);
+      }
+      return locked;
+    };
+    if (update()) {
+      lockTimer = setInterval(() => {
+        if (!update()) {
+          clearInterval(lockTimer);
+          lockTimer = null;
+          $('#pin')?.focus();
+        }
+      }, 1000);
+    } else {
+      input.focus({ preventScroll: true });
+    }
+  }
+  async function onLoginSubmit() {
+    if (busy || !auth) return;
+    const input = $('#pin');
+    const pin = String(input?.value || '').trim();
+    if (!PIN_RE.test(pin)) { showLoginMessage('Enter your 6-character PIN (letters and numbers).'); return; }
+    busy = true;
+    const btn = $('#login-btn');
+    if (btn) btn.disabled = true;
+    let res;
+    try {
+      res = await tryUnlock(pin);
+    } catch {
+      res = { ok: false, msg: 'Could not verify the PIN in this browser. Check that storage is enabled, then reload.' };
+    }
+    busy = false;
+    if (res.ok) {
+      renderApp();
+      toast('Welcome back.');
+      return;
+    }
+    if (input) input.value = '';
+    showLoginMessage(res.msg);
+    lockoutTick();
+    paintPin();
+  }
+
+  /* =====================================================================
+     Shell and navigation
+     ===================================================================== */
+  const VIEWS = {};
+  const currentRoute = () => {
+    const r = location.hash.replace(/^#\/?/, '').split('?')[0];
+    return Object.prototype.hasOwnProperty.call(VIEWS, r) ? r : 'overview';
+  };
+  function setNav(open) {
+    navOpen = !!open;
+    const sb = $('#sidebar');
+    const sc = $('#scrim');
+    if (!sb) return;
+    sb.classList.toggle('-translate-x-full', !navOpen);
+    if (sc) sc.classList.toggle('hidden', !navOpen);
+  }
+  function navigate(route) {
+    setNav(false);
+    if (currentRoute() === route) renderView();
+    else location.hash = `#/${route}`;
+  }
+  function shellHTML() {
+    return `
+    <div class="md:flex md:min-h-screen">
+      <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 flex w-72 -translate-x-full flex-col border-r border-white/[0.06] bg-[#07090c]/95 backdrop-blur-2xl transition-transform duration-300 md:sticky md:top-0 md:h-screen md:translate-x-0 md:bg-[#07090c]/70">
+        <div class="flex items-center gap-3 px-5 pb-5 pt-6">
+          ${logoMark(40)}
+          <div class="min-w-0">
+            <p class="font-display text-[15px] font-extrabold tracking-tight text-zinc-50">7H Manager</p>
+            <p class="truncate text-[11px] text-zinc-500">7H Music Group · Internal</p>
+          </div>
+          <button type="button" class="icon-btn ml-auto md:hidden" data-action="close-nav" aria-label="Close menu">${ico('x')}</button>
+        </div>
+        <nav class="flex-1 space-y-1 px-3" aria-label="Main navigation">
+          ${NAV.map((n) => `<a href="#/${n.id}" class="nav-link" data-nav="${n.id}"><i data-lucide="${n.icon}" class="size-[18px] shrink-0" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate">${esc(n.label)}</span><span data-count="${n.id}"></span></a>`).join('')}
+        </nav>
+        <div class="m-3 rounded-2xl border border-white/[0.06] bg-white/[0.03] p-4">
+          <p class="text-xs font-semibold text-zinc-300">Signed in</p>
+          <p id="session-note" class="mt-0.5 text-[11px] text-zinc-500"></p>
+          <button type="button" class="btn btn-ghost btn-sm mt-3 w-full" data-action="lock">${ico('lock')} Lock dashboard</button>
+        </div>
+      </aside>
+      <div id="scrim" class="fixed inset-0 z-30 hidden bg-black/60 backdrop-blur-sm md:hidden" data-action="close-nav"></div>
+      <div class="flex min-w-0 flex-1 flex-col">
+        <header class="sticky top-0 z-20 flex items-center gap-3 border-b border-white/[0.06] bg-[#050608]/85 px-4 py-3 backdrop-blur-xl md:hidden">
+          <button type="button" class="icon-btn" data-action="open-nav" aria-label="Open menu">${ico('menu')}</button>
+          <p id="mobile-title" class="min-w-0 flex-1 truncate font-display font-bold text-zinc-50"></p>
+          <button type="button" class="icon-btn" data-action="lock" aria-label="Lock dashboard">${ico('lock')}</button>
+        </header>
+        <main id="view" class="mx-auto w-full max-w-[1400px] flex-1 px-4 py-6 sm:px-6 md:px-8 md:py-8"></main>
+      </div>
+      <datalist id="artist-list"></datalist>
+    </div>`;
+  }
+  function updateNav(route) {
+    $$('[data-nav]').forEach((a) => {
+      const on = a.dataset.nav === route;
+      a.classList.toggle('active', on);
+      if (on) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
+    });
+    const counts = {
+      releases: db.releases.filter((r) => r.status !== 'Released' && daysUntil(r.date) >= 0).length,
+      demos: db.demos.filter((d) => d.status === 'New').length,
+    };
+    $$('[data-count]').forEach((el) => {
+      const n = counts[el.dataset.count] || 0;
+      el.innerHTML = n ? `<span class="nav-count">${n}</span>` : '';
+    });
+    const t = $('#mobile-title');
+    if (t) t.textContent = NAV.find((n) => n.id === route)?.label || '';
+  }
+  let lastRenderedRoute = null;
+  function renderView() {
+    const view = $('#view');
+    if (!isUnlocked() || !view) return;
+    const route = currentRoute();
+    const enter = route !== lastRenderedRoute;
+    lastRenderedRoute = route;
+    view.classList.toggle('view-enter', enter);
+    view.innerHTML = VIEWS[route]();
+    const dl = $('#artist-list');
+    if (dl) dl.innerHTML = db.roster.map((a) => `<option value="${esc(a.name)}"></option>`).join('');
+    updateNav(route);
+    if (route === 'demos') updateDemos();
+    if (route === 'playbooks') $$('[data-tpl]').forEach(updateTemplate);
+    icons();
+    if (pendingScroll) {
+      const el = document.getElementById(pendingScroll);
+      pendingScroll = null;
+      if (el) requestAnimationFrame(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    }
+  }
+  function renderApp() {
+    const app = $('#app');
+    if (!isUnlocked()) {
+      shellReady = false;
+      closeModal();
+      app.innerHTML = loginHTML();
+      paintPin();
+      lockoutTick();
+      icons();
+      return;
+    }
+    if (!shellReady) {
+      app.innerHTML = shellHTML();
+      shellReady = true;
+      lastRenderedRoute = null;
+    }
+    renderView();
+  }
+  function tick() {
+    if (!auth || !shellReady) return;
+    if (!isUnlocked()) {
+      endSession();
+      renderApp();
+      toast('Your session expired. Unlock to continue.', 'error');
+      return;
+    }
+    const note = $('#session-note');
+    if (note) note.textContent = `Unlocked until ${timeOf(auth.session.exp)} · extends with activity`;
+  }
+  function lockDashboard(msg) {
+    endSession();
+    renderApp();
+    if (msg) toast(msg);
+  }
+
+  /* =====================================================================
+     Views
+     ===================================================================== */
+  VIEWS.overview = function viewOverview() {
+    const hour = new Date().getHours();
+    const greet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+    const active = db.roster.filter((a) => a.contract === 'Active').length;
+    const pending = db.demos.filter((d) => d.status === 'New' || d.status === 'Reviewing');
+    const newCount = db.demos.filter((d) => d.status === 'New').length;
+    const upcoming = db.releases.filter((r) => r.status !== 'Released' && daysUntil(r.date) >= 0).sort(byDate);
+    const live = db.releases.filter((r) => r.status === 'Campaign Active').length;
+    const tasks = openTasks(14);
+    const latest = db.demos.slice().sort((a, b) => (b.received || '').localeCompare(a.received || '')).slice(0, 5);
+    const next = upcoming[0];
+    const nextText = next ? `Next: ${esc(next.title)} · ${countdownInfo(next).text}` : 'Nothing scheduled yet';
+    return `
+    <div class="rise space-y-6">
+      ${pageHead('Overview', `${greet}, 7H team`, 'Roster health, release runway and the A&R pipeline at a glance.', `
+        <button type="button" class="btn btn-ghost" data-action="new-demo">${ico('inbox')} Log demo</button>
+        <button type="button" class="btn btn-primary" data-action="new-release">${ico('plus')} New release</button>`)}
+      ${db.sample ? sampleBanner() : ''}
+      <div class="grid grid-cols-2 gap-4 xl:grid-cols-4">
+        ${metricCard('users', 'Active roster', active, `of ${db.roster.length} artists on the roster`, 'emerald')}
+        ${metricCard('inbox', 'Pending demos', pending.length, `${newCount} new · ${pending.length - newCount} in review`, 'sky')}
+        ${metricCard('calendar-days', 'Upcoming releases', upcoming.length, nextText, 'violet')}
+        ${metricCard('radio', 'Campaigns live', live, `${tasks.length} runway task${tasks.length === 1 ? '' : 's'} due in 14 days`, 'fuchsia')}
+      </div>
+      <div class="grid gap-6 xl:grid-cols-3">
+        <section class="card p-5 sm:p-6 xl:col-span-2">
+          ${cardHead('Upcoming releases', 'Six-week countdown per release', '#/releases', 'Open planner')}
+          <div class="mt-5 space-y-3">
+            ${upcoming.slice(0, 4).map((r, i) => releaseRow(r, i)).join('') || emptyState('calendar-days', 'No upcoming releases', 'Add a release to start its six-week runway.')}
+          </div>
+        </section>
+        <section class="card p-5 sm:p-6">
+          ${cardHead('Due in 14 days', 'Open runway tasks, soonest first', '#/releases', 'All tasks')}
+          <div class="mt-5 space-y-2.5">
+            ${tasks.slice(0, 8).map(taskRow).join('') || emptyState('circle-check', 'All caught up', 'No open runway tasks in the next two weeks.')}
+          </div>
+        </section>
+      </div>
+      <div class="grid gap-6 xl:grid-cols-3">
+        <section class="card p-5 sm:p-6 xl:col-span-2">
+          ${cardHead('Latest demos', 'Newest submissions first', '#/demos', 'Open inbox')}
+          <div class="mt-4 divide-y divide-white/[0.06]">
+            ${latest.map(demoMini).join('') || emptyState('inbox', 'No demos yet', 'Log the first submission to start the pipeline.')}
+          </div>
+        </section>
+        <section class="card p-5 sm:p-6">
+          <h2 class="section-title">Quick actions</h2>
+          <div class="mt-4 space-y-2.5">
+            <button type="button" class="qa" data-action="new-release"><span class="qa-icon">${ico('calendar-days')}</span>New release</button>
+            <button type="button" class="qa" data-action="new-demo"><span class="qa-icon">${ico('inbox')}</span>Log a demo submission</button>
+            <button type="button" class="qa" data-action="go-generator"><span class="qa-icon">${ico('file-signature')}</span>Draft a split sheet</button>
+            <a href="#/playbooks" class="qa"><span class="qa-icon">${ico('book-open')}</span>Open playbooks</a>
+            <button type="button" class="qa" data-action="export-backup"><span class="qa-icon">${ico('download')}</span>Download data backup</button>
+          </div>
+        </section>
+      </div>
+    </div>`;
+  };
+
+  function releaseRow(r, i = 0) {
+    const done = doneCount(r);
+    const n = daysUntil(r.date);
+    return `
+      <div class="flex items-center gap-4 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4">
+        <div class="grid size-12 shrink-0 place-items-center rounded-xl font-display text-sm font-extrabold text-black/80" style="${gradStyle(i)}" aria-hidden="true">${esc(initials(r.title))}</div>
+        <div class="min-w-0 flex-1">
+          <div class="flex flex-wrap items-center gap-2">
+            <p class="truncate font-semibold text-zinc-100">${esc(r.title)}</p>
+            ${badge(r.status)}
+          </div>
+          <p class="mt-0.5 truncate text-sm text-zinc-400">${esc(r.artist)} · ${fmtDate(r.date)}</p>
+          <div class="mt-3 flex items-center gap-3">${progressBar(done / CHECKS.length)}<span class="num text-xs text-zinc-500">${done}/${CHECKS.length}</span></div>
+        </div>
+        <div class="shrink-0 text-right">
+          <p class="num font-display text-2xl font-extrabold text-zinc-50">${Number.isNaN(n) ? '—' : Math.max(0, n)}</p>
+          <p class="text-[11px] uppercase tracking-wider text-zinc-500">days</p>
+        </div>
+      </div>`;
+  }
+  function taskRow(t) {
+    const overdue = t.n < 0;
+    const when = overdue ? `${-t.n}d late` : t.n === 0 ? 'Today' : `${t.n}d`;
+    return `
+    <div class="flex items-start gap-3 rounded-xl border border-white/[0.05] bg-white/[0.02] p-3">
+      <span class="mt-0.5 grid size-7 shrink-0 place-items-center rounded-lg ${overdue ? 'bg-rose-400/10 text-rose-300' : 'bg-amber-400/10 text-amber-300'}">${ico('clock', 'size-3.5')}</span>
+      <div class="min-w-0 flex-1">
+        <p class="truncate text-sm font-semibold text-zinc-100">${esc(t.c.short)}</p>
+        <p class="truncate text-xs text-zinc-500">${esc(t.r.title)} · ${esc(t.c.week)}</p>
+      </div>
+      <span class="num shrink-0 text-xs font-semibold ${overdue ? 'text-rose-300' : 'text-zinc-400'}">${when}</span>
+    </div>`;
+  }
+  function demoMini(d) {
+    return `
+    <div class="flex items-center gap-3 py-3">
+      <div class="min-w-0 flex-1">
+        <p class="truncate text-sm font-semibold text-zinc-100">${esc(d.artist)} <span class="font-normal text-zinc-500">· ${esc(d.track)}</span></p>
+        <p class="truncate text-xs text-zinc-500">${esc(d.genre)} · received ${fmtDate(d.received)}</p>
+      </div>
+      ${badge(d.status)}
+    </div>`;
+  }
+
+  /* ---- Roster & Contracts ---- */
+  VIEWS.roster = function viewRoster() {
+    const archive = db.splits.slice().sort((a, b) => (b.updatedAt || b.createdAt || '').localeCompare(a.updatedAt || a.createdAt || ''));
+    return `
+    <div class="rise space-y-12">
+      <div class="space-y-8">
+        ${pageHead('Roster & Contracts', 'Artist roster', 'Profiles, streaming links, contract status and private notes for the 7H roster.', `
+          <button type="button" class="btn btn-ghost" data-action="new-artist">${ico('plus')} Add artist</button>
+          <button type="button" class="btn btn-primary" data-action="go-generator">${ico('file-signature')} Split sheet generator</button>`)}
+        <div class="grid gap-5 sm:grid-cols-2 2xl:grid-cols-4">
+          ${db.roster.map((a, i) => artistCard(a, i)).join('') || emptyState('users', 'No artists on the roster', 'Add an artist to start their profile.')}
+        </div>
+      </div>
+
+      <section id="generator" class="scroll-mt-6" data-split-scope="inline">
+        <div class="mb-5">
+          <p class="eyebrow">Split Sheet &amp; Agreement Generator</p>
+          <h2 class="section-title mt-2">Master and publishing splits</h2>
+          <p class="mt-1 max-w-3xl text-sm text-zinc-400">Enter the credits and shares. The document updates as you type. Save it to the archive below, then print or export it for delivery and signature.</p>
+        </div>
+        <div class="grid gap-6 xl:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+          <div class="card min-w-0 p-5 sm:p-6"><div data-split-form>${splitFormHTML('inline', db.draft)}</div></div>
+          <div class="min-w-0 space-y-4">
+            <div class="card flex flex-wrap items-center gap-2 p-3">
+              <button type="button" class="btn btn-primary btn-sm" data-action="split-save">${ico('save')} Save to archive</button>
+              <button type="button" class="btn btn-ghost btn-sm" data-action="split-print" data-scope="inline">${ico('printer')} Print / PDF</button>
+              <button type="button" class="btn btn-ghost btn-sm" data-action="split-download" data-scope="inline">${ico('download')} Download .html</button>
+              <button type="button" class="btn btn-ghost btn-sm" data-action="split-copy" data-scope="inline">${ico('copy')} Copy text</button>
+              <button type="button" class="btn btn-danger btn-sm ml-auto" data-action="split-reset">${ico('rotate-ccw')} Clear form</button>
+            </div>
+            <div data-split-warn>${warnHTML(db.draft)}</div>
+            <div class="doc-stage"><div data-split-preview>${sheetHTML(db.draft)}</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="archive" class="scroll-mt-6">
+        <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p class="eyebrow">Contract archive</p>
+            <h2 class="section-title mt-2">Saved split sheets</h2>
+          </div>
+          <p class="text-sm text-zinc-500">${archive.length} saved · stored in this browser</p>
+        </div>
+        <div class="card overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full min-w-[900px] text-left text-sm">
+              <thead class="table-head"><tr><th>Track</th><th>Artist · producer</th><th>Master A / P / L</th><th>Writers</th><th>Status</th><th>Updated</th><th class="text-right">Actions</th></tr></thead>
+              <tbody>
+                ${archive.map(splitRow).join('') || '<tr class="table-row"><td colspan="7" class="px-4 py-12 text-center text-zinc-500">No saved split sheets yet. Save one from the generator above.</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>`;
+  };
+
+  function artistCard(a, i) {
+    const chips = LINKS.map(([k, label]) => {
+      const url = toUrl(a.links?.[k]);
+      if (!url) return `<button type="button" class="chip-link chip-link-empty" data-action="edit-artist" data-id="${a.id}">${ico('plus', 'size-3')} ${esc(label)}</button>`;
+      const isSearch = /search|[?&]term=/i.test(url);
+      return `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer" class="chip-link" title="${isSearch ? 'Search page. Edit to paste the official profile.' : esc(url)}">${esc(label)}${isSearch ? ' <span class="text-zinc-500">· search</span>' : ''} ${ico('external-link', 'size-3')}</a>`;
+    }).join('');
+    return `
+    <article class="card rise flex flex-col gap-4 p-5" style="animation-delay:${i * 60}ms">
+      <div class="flex items-start gap-4">
+        <div class="grid size-14 shrink-0 place-items-center rounded-2xl font-display text-base font-extrabold text-black/80" style="${gradStyle(i)}" aria-hidden="true">${esc(initials(a.name))}</div>
+        <div class="min-w-0 flex-1">
+          <h3 class="truncate font-display text-lg font-bold text-zinc-50">${esc(a.name)}</h3>
+          <p class="mt-0.5 flex min-w-0 items-center gap-1.5 text-sm text-zinc-400">${ico('map-pin', 'size-3.5 shrink-0')}<span class="truncate">${esc(a.location || 'Kampala, UG')}</span></p>
+        </div>
+        <button type="button" class="icon-btn" data-action="edit-artist" data-id="${a.id}" aria-label="Edit ${esc(a.name)}">${ico('pencil')}</button>
+      </div>
+      <div class="flex flex-wrap gap-1.5">${a.genres.map((g) => `<span class="chip">${esc(g)}</span>`).join('') || '<span class="text-xs text-zinc-600">No genres set</span>'}</div>
+      <p class="line-clamp-3 text-sm leading-relaxed ${a.bio ? 'text-zinc-400' : 'italic text-zinc-600'}">${esc(a.bio || 'No bio yet. Use Edit to add one.')}</p>
+      <div class="flex flex-wrap gap-1.5">${chips}</div>
+      <div class="grid grid-cols-2 gap-3 rounded-xl border border-white/[0.06] bg-black/20 p-3">
+        <label class="min-w-0"><span class="label">Contract</span>
+          <select class="select-sm" data-change="artist-contract" data-id="${a.id}">${CONTRACT_STATUSES.map((s) => `<option${s === a.contract ? ' selected' : ''}>${s}</option>`).join('')}</select>
+        </label>
+        <div class="min-w-0"><span class="label">Term ends</span><p class="truncate text-sm text-zinc-300">${a.contractEnd ? fmtDate(a.contractEnd) : '<span class="text-zinc-600">Not set</span>'}</p></div>
+      </div>
+      <label class="block"><span class="label">Roster notes (private)</span>
+        <textarea class="textarea-sm" rows="2" data-change="artist-notes" data-id="${a.id}" placeholder="Booking, press, follow-ups…">${esc(a.notes)}</textarea>
+      </label>
+    </article>`;
+  }
+
+  /* ---- Split sheet pieces ---- */
+  function splitFormHTML(scope, s) {
+    const writerRows = s.writers.map((w, i) => `
+      <div class="grid grid-cols-[minmax(0,1fr)_6.5rem_auto] items-center gap-2">
+        <input class="input" data-writer="${i}" data-k="name" maxlength="80" value="${esc(w.name)}" placeholder="Writer ${i + 1} name" aria-label="Writer ${i + 1} name" />
+        <div class="relative">
+          <input class="input pr-7 text-right num" type="number" min="0" max="100" step="0.5" inputmode="decimal" data-writer="${i}" data-k="pct" value="${fmtPct(w.pct)}" aria-label="Writer ${i + 1} publishing share" />
+          <span class="pointer-events-none absolute inset-y-0 right-3 grid place-items-center text-xs text-zinc-500">%</span>
+        </div>
+        <button type="button" class="icon-btn icon-btn-danger" data-action="split-remove-writer" data-scope="${scope}" data-i="${i}" ${s.writers.length < 2 ? 'disabled' : ''} aria-label="Remove writer ${i + 1}">${ico('trash-2', 'size-4')}</button>
+      </div>`).join('');
+    const pctInput = (f, v) => `<input class="input num" type="number" min="0" max="100" step="0.5" inputmode="decimal" data-f="${f}" value="${fmtPct(v)}" />`;
+    return `
+    <div class="grid gap-5">
+      <div class="grid gap-4 sm:grid-cols-2">
+        ${field('Track title *', `<input class="input" data-f="track" maxlength="120" value="${esc(s.track)}" placeholder="e.g. Kampala Nights" />`, 'sm:col-span-2')}
+        ${field('Artist *', `<input class="input" data-f="artist" list="artist-list" maxlength="80" value="${esc(s.artist)}" placeholder="Performing artist" />`)}
+        ${field('Producer *', `<input class="input" data-f="producer" maxlength="80" value="${esc(s.producer)}" placeholder="Producer name" />`)}
+        ${field('Project / release', `<input class="input" data-f="project" maxlength="120" value="${esc(s.project)}" placeholder="Single, EP or album" />`)}
+        ${field('ISRC', `<input class="input" data-f="isrc" maxlength="20" value="${esc(s.isrc)}" placeholder="Assigned by distributor" />`)}
+        ${field('Agreement date', `<input class="input" type="date" data-f="date" value="${esc(s.date)}" />`)}
+        ${field('Governing law', `<input class="input" data-f="governingLaw" maxlength="80" value="${esc(s.governingLaw)}" />`)}
+      </div>
+      <fieldset class="rounded-2xl border border-white/[0.07] bg-black/20 p-4">
+        <legend class="px-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Master ownership · sound recording</legend>
+        <div class="grid grid-cols-3 gap-3">
+          ${field('Artist %', pctInput('master.artist', s.master.artist))}
+          ${field('Producer %', pctInput('master.producer', s.master.producer))}
+          ${field('Label %', pctInput('master.label', s.master.label))}
+        </div>
+        <p class="mt-3 text-xs" data-total="master">${totalChip(masterTotal(s))}</p>
+      </fieldset>
+      <fieldset class="rounded-2xl border border-white/[0.07] bg-black/20 p-4">
+        <legend class="px-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Composition · writer shares</legend>
+        <div class="space-y-2">${writerRows}</div>
+        <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
+          <button type="button" class="btn btn-ghost btn-sm" data-action="split-add-writer" data-scope="${scope}">${ico('plus', 'size-3.5')} Add writer</button>
+          <p class="text-xs" data-total="publishing">${totalChip(pubTotal(s))}</p>
+        </div>
+      </fieldset>
+    </div>`;
+  }
+  function warnHTML(s) {
+    const issues = [];
+    if (!s.track.trim()) issues.push('Add the track title.');
+    if (!s.artist.trim()) issues.push('Add the artist name.');
+    if (!s.producer.trim()) issues.push('Add the producer name.');
+    if (round2(masterTotal(s)) !== 100) issues.push(`Master shares total ${fmtPct(masterTotal(s))}%. They must total 100%.`);
+    if (round2(pubTotal(s)) !== 100) issues.push(`Writer shares total ${fmtPct(pubTotal(s))}%. They must total 100%.`);
+    if (!s.writers.some((w) => w.name.trim())) issues.push('Name at least one writer.');
+    if (!issues.length) {
+      return `<div class="flex items-center gap-2 rounded-xl border border-emerald-400/25 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-300">${ico('circle-check', 'size-4 shrink-0')}<span>Ready for signature. Shares total 100% and the required fields are complete.</span></div>`;
+    }
+    return `<div class="rounded-xl border border-amber-400/25 bg-amber-400/10 px-4 py-3 text-sm text-amber-100"><p class="flex items-center gap-2 font-semibold text-amber-300">${ico('triangle-alert', 'size-4 shrink-0')} Review before signing</p><ul class="mt-2 list-disc space-y-1 pl-5 text-amber-100/90">${issues.map((i) => `<li>${esc(i)}</li>`).join('')}</ul></div>`;
+  }
+  function sheetHTML(s) {
+    const ref = s.id ? `7H-${s.id.replace(/[^a-z0-9]/gi, '').slice(0, 8).toUpperCase()}` : 'DRAFT';
+    const pct = (n) => `${fmtPct(n)}%`;
+    const val = (v, fb = '—') => (str(v, 300) ? esc(str(v, 300)) : `<span class="ph">${esc(fb)}</span>`);
+    const writerRows = s.writers.length
+      ? s.writers.map((w) => `<tr><td>${val(w.name, 'Writer name')}</td><td class="r">${pct(w.pct)}</td></tr>`).join('')
+      : '<tr><td colspan="2"><span class="ph">No writers listed</span></td></tr>';
+    return `
+    <article class="sheet">
+      <header class="sh-head">
+        <div><p class="sh-brand">7H MUSIC GROUP</p><h1>Master Ownership &amp; Split Sheet Agreement</h1></div>
+        <dl class="sh-meta"><dt>Reference</dt><dd>${esc(ref)}</dd><dt>Date</dt><dd>${esc(fmtLong(s.date) || '—')}</dd><dt>Status</dt><dd>${esc(s.status)}</dd></dl>
+      </header>
+      <section>
+        <h2>1 · Track details</h2>
+        <table class="kv"><tbody>
+          <tr><th>Track title</th><td>${val(s.track, '[Track title]')}</td><th>Project</th><td>${val(s.project)}</td></tr>
+          <tr><th>Artist</th><td>${val(s.artist, '[Artist]')}</td><th>ISRC</th><td>${val(s.isrc, 'Assigned by distributor')}</td></tr>
+          <tr><th>Producer</th><td>${val(s.producer, '[Producer]')}</td><th>Distributor</th><td>ONErpm or other agreed DSPs</td></tr>
+        </tbody></table>
+      </section>
+      <section>
+        <h2>2 · Master ownership (sound recording)</h2>
+        <table>
+          <thead><tr><th>Party</th><th>Role</th><th class="r">Share</th></tr></thead>
+          <tbody>
+            <tr><td>${val(s.artist, '[Artist]')}</td><td>Artist / performer</td><td class="r">${pct(s.master.artist)}</td></tr>
+            <tr><td>${val(s.producer, '[Producer]')}</td><td>Producer</td><td class="r">${pct(s.master.producer)}</td></tr>
+            <tr><td>7H Music Group</td><td>Label / licensee</td><td class="r">${pct(s.master.label)}</td></tr>
+          </tbody>
+          <tfoot><tr><td colspan="2">Total</td><td class="r">${pct(masterTotal(s))}</td></tr></tfoot>
+        </table>
+      </section>
+      <section>
+        <h2>3 · Composition &amp; publishing shares</h2>
+        <table>
+          <thead><tr><th>Writer</th><th class="r">Share</th></tr></thead>
+          <tbody>${writerRows}</tbody>
+          <tfoot><tr><td>Total</td><td class="r">${pct(pubTotal(s))}</td></tr></tfoot>
+        </table>
+      </section>
+      <section>
+        <h2>4 · Terms</h2>
+        <ol>${termsFor(s).map((t) => `<li>${esc(t)}</li>`).join('')}</ol>
+      </section>
+      <section>
+        <h2>5 · Signatures</h2>
+        <div class="sig-grid">${signatories(s).map(([role, name]) => `<div class="sig">${esc(name)}<small>${esc(role)} · signature and date</small></div>`).join('')}</div>
+      </section>
+      <footer class="sh-foot">Generated with 7H Manager as an internal template. It is not legal advice. Have qualified counsel review it before any party signs.</footer>
+    </article>`;
+  }
+  function sheetText(s) {
+    const pct = (n) => `${fmtPct(n)}%`;
+    return [
+      'MASTER OWNERSHIP & SPLIT SHEET AGREEMENT',
+      '7H Music Group',
+      '',
+      `Track: ${s.track || '[Track title]'}`,
+      `Project: ${s.project || '—'}`,
+      `ISRC: ${s.isrc || 'Assigned by distributor'}`,
+      `Date: ${fmtLong(s.date) || '—'}`,
+      '',
+      '1. MASTER OWNERSHIP (SOUND RECORDING)',
+      `   Artist (${s.artist || '[Artist]'}): ${pct(s.master.artist)}`,
+      `   Producer (${s.producer || '[Producer]'}): ${pct(s.master.producer)}`,
+      `   7H Music Group (label): ${pct(s.master.label)}`,
+      `   Total: ${pct(masterTotal(s))}`,
+      '',
+      '2. COMPOSITION & PUBLISHING SHARES',
+      ...s.writers.map((w) => `   ${w.name || 'Unnamed writer'}: ${pct(w.pct)}`),
+      `   Total: ${pct(pubTotal(s))}`,
+      '',
+      '3. TERMS',
+      ...termsFor(s).map((t, i) => `   ${i + 1}. ${t}`),
+      '',
+      '4. SIGNATURES',
+      ...signatories(s).map(([role, name]) => `   ${name} (${role}): ______________________  Date: ____________`),
+      '',
+      'Generated with 7H Manager. Not legal advice. Have qualified counsel review before signing.',
+    ].join('\n');
+  }
+  function downloadSheet(s) {
+    const doc = `<!doctype html><html lang="en"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>${esc(s.track || 'Split sheet')} · split sheet</title><style>${SHEET_CSS}body{margin:0;padding:24px;background:#e5e7eb}@media print{body{background:#fff;padding:0}}</style></head><body>${sheetHTML(s)}</body></html>`;
+    downloadFile(`${slug(s.track)}-split-sheet-${todayISO()}.html`, 'text/html', doc);
+  }
+  function splitRow(s) {
+    const mt = masterTotal(s);
+    return `
+    <tr class="table-row">
+      <td class="px-4 py-3 align-top"><p class="font-semibold text-zinc-100">${esc(s.track)}</p><p class="text-xs text-zinc-500">${esc(s.project || 'No project')} · ISRC ${esc(s.isrc || '—')}</p></td>
+      <td class="px-4 py-3 align-top text-zinc-300">${esc(s.artist || '—')}<span class="text-zinc-500"> · ${esc(s.producer || '—')}</span></td>
+      <td class="whitespace-nowrap px-4 py-3 align-top"><span class="num text-zinc-200">${fmtPct(s.master.artist)} / ${fmtPct(s.master.producer)} / ${fmtPct(s.master.label)}</span>${round2(mt) === 100 ? '' : ` ${badge('Not 100%', 'rose')}`}</td>
+      <td class="px-4 py-3 align-top text-zinc-400">${s.writers.map((w) => esc(w.name || 'Unnamed')).join(', ') || '—'}</td>
+      <td class="px-4 py-3 align-top"><select class="select-sm min-w-[10rem]" data-change="split-status" data-id="${s.id}" aria-label="Status for ${esc(s.track)}">${SPLIT_STATUSES.map((o) => `<option${o === s.status ? ' selected' : ''}>${o}</option>`).join('')}</select></td>
+      <td class="whitespace-nowrap px-4 py-3 align-top text-zinc-500">${fmtDate((s.updatedAt || s.createdAt || '').slice(0, 10))}</td>
+      <td class="px-4 py-3 align-top">
+        <div class="flex justify-end gap-1">
+          <button type="button" class="icon-btn" data-action="split-edit" data-id="${s.id}" aria-label="Edit split sheet">${ico('pencil')}</button>
+          <button type="button" class="icon-btn" data-action="split-print-id" data-id="${s.id}" aria-label="Print split sheet">${ico('printer')}</button>
+          <button type="button" class="icon-btn icon-btn-danger" data-action="split-delete" data-id="${s.id}" aria-label="Delete split sheet">${ico('trash-2')}</button>
+        </div>
+      </td>
+    </tr>`;
+  }
+  function refreshPreview(scopeEl) {
+    const s = draftOf(scopeEl.dataset.splitScope);
+    if (!s) return;
+    const prev = $('[data-split-preview]', scopeEl);
+    if (prev) prev.innerHTML = sheetHTML(s);
+    const warn = $('[data-split-warn]', scopeEl);
+    if (warn) warn.innerHTML = warnHTML(s);
+    const m = $('[data-total="master"]', scopeEl);
+    if (m) m.innerHTML = totalChip(masterTotal(s));
+    const p = $('[data-total="publishing"]', scopeEl);
+    if (p) p.innerHTML = totalChip(pubTotal(s));
+    icons();
+  }
+  function refreshScope(scope) {
+    const el = $(`[data-split-scope="${scope}"]`);
+    const s = draftOf(scope);
+    if (!el || !s) return;
+    const holder = $('[data-split-form]', el);
+    if (holder) holder.innerHTML = splitFormHTML(scope, s);
+    refreshPreview(el);
+    icons();
+  }
+  function splitInput(scopeEl, t) {
+    const scope = scopeEl.dataset.splitScope;
+    const s = draftOf(scope);
+    if (!s) return;
+    if (t.dataset.writer !== undefined) {
+      const w = s.writers[Number(t.dataset.writer)];
+      if (!w) return;
+      if (t.dataset.k === 'name') w.name = str(t.value, 80);
+      else w.pct = num(t.value, 0);
+    } else {
+      const f = t.dataset.f;
+      if (f === 'master.artist') s.master.artist = num(t.value, 0);
+      else if (f === 'master.producer') s.master.producer = num(t.value, 0);
+      else if (f === 'master.label') s.master.label = num(t.value, 0);
+      else if (f === 'date') s.date = isoOk(t.value);
+      else if (SPLIT_TEXT[f]) s[f] = str(t.value, SPLIT_TEXT[f]);
+      else return;
+    }
+    touchDraft(scope);
+    refreshPreview(scopeEl);
+  }
+  function saveInlineSplit() {
+    const blockers = splitBlockers(db.draft);
+    if (blockers.length) return toast(blockers[0], 'error');
+    const now = new Date().toISOString();
+    const rec = { ...clone(db.draft), id: uid(), createdAt: now, updatedAt: now };
+    db.splits.push(rec);
+    db.draft = blankSplit();
+    saveDb();
+    renderView();
+    toast(`Split sheet saved: ${rec.track}.`);
+  }
+  function openSplitModal(id) {
+    const s = db.splits.find((x) => x.id === id);
+    if (!s) return toast('That split sheet no longer exists.', 'error');
+    modalDraft = clone(s);
+    modalSplitId = id;
+    openModal({
+      title: 'Edit split sheet',
+      subtitle: `${s.track || 'Untitled track'} · changes save to the archive when you click Save changes.`,
+      form: 'split-edit',
+      wide: true,
+      body: `
+        <div class="grid gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]" data-split-scope="modal">
+          <div class="min-w-0" data-split-form>${splitFormHTML('modal', modalDraft)}</div>
+          <div class="min-w-0 space-y-4">
+            <div data-split-warn>${warnHTML(modalDraft)}</div>
+            <div class="doc-stage"><div data-split-preview>${sheetHTML(modalDraft)}</div></div>
+          </div>
+        </div>`,
+      footer: `<button type="button" class="btn btn-ghost mr-auto" data-action="split-print-modal">${ico('printer')} Print</button><button type="button" class="btn btn-ghost" data-action="close-modal">Cancel</button><button type="submit" class="btn btn-primary">${ico('save')} Save changes</button>`,
+    });
+  }
+
+  /* ---- Release Planner ---- */
+  VIEWS.releases = function viewReleases() {
+    const seg = (v, label, icon) => `<button type="button" class="seg${relView === v ? ' is-on' : ''}" data-action="rel-view" data-v="${v}" aria-pressed="${relView === v}">${ico(icon, 'size-4')} ${label}</button>`;
+    return `
+    <div class="rise space-y-6">
+      ${pageHead('Release Planner', 'Release pipeline', 'Every release runs a six-week countdown. Due dates are calculated from the release date and move automatically when it changes.', `
+        <div class="seg-group" role="group" aria-label="View">${seg('board', 'Board', 'kanban')}${seg('timeline', 'Timeline', 'calendar-range')}</div>
+        <button type="button" class="btn btn-primary" data-action="new-release">${ico('plus')} New release</button>`)}
+      ${relView === 'board' ? boardHTML() : timelineHTML()}
+    </div>`;
+  };
+  function boardHTML() {
+    return `
+    <p class="text-xs text-zinc-500">Drag a card to another column, or use its status menu. Tick the runway items as each task is done.</p>
+    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      ${RELEASE_STATUSES.map((st) => {
+        const list = db.releases.filter((r) => r.status === st).sort(byDate);
+        const tone = STATUS_TONE[st];
+        return `
+        <section class="drop-col card-tight flex min-h-[14rem] flex-col gap-3 p-3" data-drop-status="${esc(st)}" aria-label="${esc(st)}">
+          <header class="flex items-center justify-between px-1.5 pt-0.5">
+            <div class="flex items-center gap-2"><span class="size-2.5 rounded-full ${DOT[tone]}"></span><h2 class="text-sm font-semibold text-zinc-200">${esc(st)}</h2></div>
+            <span class="chip num">${list.length}</span>
+          </header>
+          ${list.map(releaseCard).join('') || '<p class="rounded-xl border border-dashed border-white/10 px-3 py-10 text-center text-xs text-zinc-600">Drop releases here</p>'}
+        </section>`;
+      }).join('')}
+    </div>`;
+  }
+  function releaseCard(r) {
+    const done = doneCount(r);
+    const cd = countdownInfo(r);
+    const open = detailsState[`rel:${r.id}`] ? ' open' : '';
+    return `
+    <article class="release-card" draggable="true" data-drag-release="${r.id}" aria-label="${esc(r.title)}">
+      <div class="flex items-center justify-between gap-2">
+        <span class="chip min-w-0 truncate">${esc(r.artist || 'Unassigned')}</span>
+        <div class="-mr-1 -mt-1 flex shrink-0 items-center">
+          <button type="button" class="icon-btn icon-btn-xs" data-action="edit-release" data-id="${r.id}" aria-label="Edit ${esc(r.title)}">${ico('pencil', 'size-3.5')}</button>
+          <button type="button" class="icon-btn icon-btn-xs icon-btn-danger" data-action="delete-release" data-id="${r.id}" aria-label="Delete ${esc(r.title)}">${ico('trash-2', 'size-3.5')}</button>
+        </div>
+      </div>
+      <h3 class="mt-2.5 font-display text-[15px] font-bold leading-snug text-zinc-50">${esc(r.title)}</h3>
+      <div class="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-zinc-400">
+        <span class="flex items-center gap-1.5">${ico('calendar-days', 'size-3.5')}${fmtDate(r.date)}</span>
+        ${badge(cd.text, cd.tone)}
+      </div>
+      <div class="mt-3 flex items-center gap-2">${progressBar(done / CHECKS.length)}<span class="num text-[11px] text-zinc-500">${done}/${CHECKS.length}</span></div>
+      <details class="mt-3" data-acc="rel:${r.id}"${open}>
+        <summary class="flex cursor-pointer items-center gap-1.5 text-xs font-semibold text-zinc-300 hover:text-white">${ico('list-checks', 'size-3.5')} Six-week runway</summary>
+        <div class="mt-2.5 space-y-1.5">${CHECKS.map((c) => checkItem(r, c)).join('')}</div>
+      </details>
+      <div class="mt-3 border-t border-white/[0.06] pt-3">
+        <select class="select-sm w-full" data-change="release-status" data-id="${r.id}" aria-label="Status for ${esc(r.title)}">${RELEASE_STATUSES.map((s) => `<option${s === r.status ? ' selected' : ''}>${s}</option>`).join('')}</select>
+      </div>
+    </article>`;
+  }
+  function checkItem(r, c) {
+    const due = dueOf(r, c);
+    const checked = !!r.checks?.[c.key];
+    const late = !checked && r.status !== 'Released' && daysUntil(due) < 0;
+    return `
+    <label class="flex cursor-pointer items-start gap-2.5 rounded-lg px-1 py-1 hover:bg-white/[0.03] ${checked ? 'opacity-60' : ''}">
+      <input type="checkbox" class="check mt-0.5" data-change="release-check" data-id="${r.id}" data-key="${c.key}"${checked ? ' checked' : ''} aria-label="${esc(c.week)}: ${esc(c.label)}" />
+      <span class="min-w-0 flex-1 text-xs leading-relaxed text-zinc-300">
+        <span class="font-semibold ${late ? 'text-rose-300' : 'text-zinc-100'}">${esc(c.week)}</span>
+        <span class="text-zinc-500"> · ${fmtDate(due)}${late ? ' · overdue' : ''}</span>
+        <br />${esc(c.label)}
+      </span>
+    </label>`;
+  }
+  function timelineHTML() {
+    const list = db.releases.slice().sort(byDate);
+    if (!list.length) return emptyState('calendar-days', 'No releases yet', 'Create a release to generate its six-week runway.');
+    const head = `<div class="tl-row tl-head"><div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Release</div>${TIMELINE.map((t) => `<div class="px-2 py-3 text-center text-[11px] font-semibold uppercase tracking-wider text-zinc-500">${esc(t.label)}</div>`).join('')}</div>`;
+    return `
+    <div class="card overflow-hidden">
+      <div class="overflow-x-auto">
+        <div class="min-w-[1000px]">
+          ${head}
+          ${list.map(tlRow).join('')}
+        </div>
+      </div>
+    </div>`;
+  }
+  function tlRow(r) {
+    const cd = countdownInfo(r);
+    const cells = TIMELINE.map((t) => {
+      if (!t.key) return '<div class="tl-cell"><span class="tl-gap"></span></div>';
+      const c = CHECKS.find((x) => x.key === t.key);
+      const checked = !!r.checks?.[c.key];
+      return `
+        <div class="tl-cell">
+          <label class="tl-item${checked ? ' is-done' : ''}" title="${esc(c.label)}">
+            <input type="checkbox" class="check mt-0.5" data-change="release-check" data-id="${r.id}" data-key="${c.key}"${checked ? ' checked' : ''} aria-label="${esc(c.week)}: ${esc(c.label)}" />
+            <span class="min-w-0">
+              <span class="block truncate text-[11px] font-semibold text-zinc-100">${esc(c.short)}</span>
+              <span class="block text-[10px] text-zinc-500">${fmtDate(dueOf(r, c), { day: 'numeric', month: 'short' })}</span>
+            </span>
+          </label>
+        </div>`;
+    }).join('');
+    return `
+    <div class="tl-row">
+      <div class="min-w-0 px-4 py-3">
+        <p class="truncate font-semibold text-zinc-100">${esc(r.title)}</p>
+        <p class="truncate text-xs text-zinc-500">${esc(r.artist)} · ${fmtDate(r.date)}</p>
+        <div class="mt-1.5">${badge(cd.text, cd.tone)}</div>
+      </div>
+      ${cells}
+    </div>`;
+  }
+
+  /* ---- A&R Demo Inbox ---- */
+  VIEWS.demos = function viewDemos() {
+    return `
+    <div class="rise space-y-6">
+      ${pageHead('A&R Demo Inbox', 'Demo submissions', 'Incoming tracks from Kampala artists. Move each demo through the pipeline and keep notes beside it.', `<button type="button" class="btn btn-primary" data-action="new-demo">${ico('plus')} Log demo</button>`)}
+      <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div id="demo-chips" class="flex flex-wrap gap-2" role="group" aria-label="Filter by status"></div>
+        <label class="relative block w-full md:w-80">
+          <span class="sr-only">Search demos</span>
+          <span class="pointer-events-none absolute inset-y-0 left-3 grid place-items-center text-zinc-500">${ico('search', 'size-4')}</span>
+          <input class="input pl-9" type="search" data-search="demos" value="${esc(demoQuery)}" placeholder="Search artist, track, contact…" />
+        </label>
+      </div>
+      <div class="card overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[1040px] text-left text-sm">
+            <thead class="table-head"><tr><th>Artist and track</th><th>Contact</th><th>Audio</th><th>Received</th><th>Status</th><th>Manager notes</th><th class="text-right">Actions</th></tr></thead>
+            <tbody id="demo-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+  };
+  function updateDemos() {
+    const chips = $('#demo-chips');
+    const body = $('#demo-body');
+    if (!chips || !body) return;
+    const q = demoQuery.trim().toLowerCase();
+    const countOf = (st) => (st === 'All' ? db.demos.length : db.demos.filter((d) => d.status === st).length);
+    chips.innerHTML = ['All', ...DEMO_STATUSES].map((st) => `
+      <button type="button" class="filter-chip${demoFilter === st ? ' is-on' : ''}" data-action="demo-filter" data-v="${st}" aria-pressed="${demoFilter === st}">
+        ${st === 'All' ? '' : `<span class="size-1.5 rounded-full ${DOT[STATUS_TONE[st]]}" aria-hidden="true"></span>`}${st}<span class="count">${countOf(st)}</span>
+      </button>`).join('');
+    const list = db.demos
+      .filter((d) => demoFilter === 'All' || d.status === demoFilter)
+      .filter((d) => !q || [d.artist, d.track, d.genre, d.contact, d.notes].some((v) => String(v).toLowerCase().includes(q)))
+      .sort((a, b) => (b.received || '').localeCompare(a.received || ''));
+    body.innerHTML = list.map(demoRow).join('')
+      || '<tr class="table-row"><td colspan="7" class="px-4 py-12 text-center text-sm text-zinc-500">No demos match this view. Try another filter or log a new submission.</td></tr>';
+    icons();
+  }
+  function demoRow(d) {
+    const tone = STATUS_TONE[d.status] || 'zinc';
+    const link = contactLink(d.contact);
+    return `
+    <tr class="table-row">
+      <td class="px-4 py-3 align-top"><p class="font-semibold text-zinc-100">${esc(d.artist)}</p><p class="text-xs text-zinc-500">${esc(d.track)} · ${esc(d.genre)}</p></td>
+      <td class="px-4 py-3 align-top text-zinc-300">${link ? `<a class="chip-link" href="${esc(link)}" target="_blank" rel="noopener noreferrer">${ico(link.startsWith('mailto') ? 'mail' : 'message-circle', 'size-3.5')} ${esc(d.contact)}</a>` : esc(d.contact || '—')}</td>
+      <td class="px-4 py-3 align-top">${d.link ? `<a class="chip-link" href="${esc(d.link)}" target="_blank" rel="noopener noreferrer">${ico('audio-lines', 'size-3.5')} Listen</a>` : '<span class="text-xs text-zinc-600">No link yet</span>'}</td>
+      <td class="whitespace-nowrap px-4 py-3 align-top text-zinc-400">${fmtDate(d.received)}</td>
+      <td class="px-4 py-3 align-top"><select class="select-sm min-w-[9.5rem] ${TEXT[tone]}" data-change="demo-status" data-id="${d.id}" aria-label="Status for ${esc(d.artist)}">${DEMO_STATUSES.map((s) => `<option${s === d.status ? ' selected' : ''}>${s}</option>`).join('')}</select></td>
+      <td class="px-4 py-3 align-top"><textarea class="textarea-sm min-w-[14rem]" rows="2" data-change="demo-notes" data-id="${d.id}" aria-label="Notes for ${esc(d.artist)}" placeholder="Add notes…">${esc(d.notes)}</textarea></td>
+      <td class="px-4 py-3 align-top"><div class="flex justify-end gap-1"><button type="button" class="icon-btn" data-action="edit-demo" data-id="${d.id}" aria-label="Edit demo">${ico('pencil')}</button><button type="button" class="icon-btn icon-btn-danger" data-action="delete-demo" data-id="${d.id}" aria-label="Delete demo">${ico('trash-2')}</button></div></td>
+    </tr>`;
+  }
+
+  /* ---- Strategy & Playbooks ---- */
+  VIEWS.playbooks = function viewPlaybooks() {
+    return `
+    <div class="rise space-y-6">
+      ${pageHead('Strategy & Playbooks', 'Playbook library', 'Ready-to-use SOPs, pitch and booking templates, rollout schedules and industry contacts. Copy, adapt and reuse.')}
+      ${accordion('sop', true, 'rocket', 'The 7H Release SOP', 'Week-by-week checklist from master lock to the 30-day sustain phase', sopBody())}
+      ${accordion('spotify', true, 'radio', 'Spotify editorial pitch template', 'Fill in the fields to generate a copy-ready pitch for Spotify for Artists.', spotifyBody())}
+      ${accordion('social', false, 'megaphone', 'Social rollout schedule', 'Six-week content plan across short-form video, stories and WhatsApp', socialBody())}
+      ${accordion('booking', false, 'handshake', 'Show booking fee guidelines', '50% upfront deposit, a deposit calculator and the technical rider', bookingBody())}
+      ${accordion('directory', false, 'contact', 'Industry contact directory', 'Distribution, pitching, rights, radio and streaming contacts. Add your own.', directoryBody())}
+    </div>`;
+  };
+  function accordion(key, defaultOpen, icon, title, sub, body) {
+    const open = detailsState[key] ?? defaultOpen;
+    return `
+    <details class="card group overflow-hidden" data-acc="${key}"${open ? ' open' : ''}>
+      <summary class="flex cursor-pointer items-center gap-4 p-5 sm:p-6">
+        <span class="grid size-11 shrink-0 place-items-center rounded-2xl bg-brand/10 text-brand ring-1 ring-brand/20">${ico(icon, 'size-5')}</span>
+        <span class="min-w-0 flex-1">
+          <span class="block font-display text-lg font-bold text-zinc-50">${esc(title)}</span>
+          <span class="mt-0.5 block text-sm text-zinc-400">${esc(sub)}</span>
+        </span>
+        <span class="chev grid size-8 shrink-0 place-items-center rounded-lg text-zinc-400 group-hover:bg-white/[0.06]">${ico('chevron-down', 'size-4')}</span>
+      </summary>
+      <div class="border-t border-white/[0.06] p-5 sm:p-6">${body}</div>
+    </details>`;
+  }
+  function sopBody() {
+    const phases = [
+      ['Week 6', 'Lock the record', ['Final master approved and versions filed.', 'Cover artwork locked to the distributor spec (square, commonly 3000 × 3000 px).', 'Credits, ISRC and writer splits confirmed in the Split Sheet Generator.']],
+      ['Week 5', 'Build the assets', ['Press kit: bio, six to eight photos, a one-line pitch and roster quotes.', 'Smart-link page built with pre-save enabled.', 'Caption bank and hashtags written for each platform.']],
+      ['Week 4', 'Deliver to ONErpm', ['Upload master and artwork with the release date set at least four weeks out.', 'Confirm territories and metadata, then keep the delivery receipt.', 'Move the release to “Uploaded to ONErpm” in the Release Planner.']],
+      ['Week 3', 'Pitch', ['Spotify for Artists editorial pitch: one per unreleased track. Spotify’s stated minimum is 7 days, so this is our buffer. Verify current guidance in Spotify for Artists.', 'Matchfy.io curator campaign for independent playlists.', 'Pre-save link set live.']],
+      ['Week 2', 'Teasers and press', ['Three or four vertical TikTok snippets (15 to 30 seconds, hook in the first two seconds).', 'Press release draft sent to Kampala media. DJ and radio kits sent.']],
+      ['Week 1', 'Momentum', ['Daily countdown posts and a WhatsApp broadcast to fans and DJs.', 'Confirm playlist and radio commitments.', 'Schedule every release-day post in advance.']],
+      ['Release day', 'Drop', ['Smart link goes live. Each roster artist posts within two hours (see the rollout schedule).', 'Share to stories, WhatsApp statuses and the press list.', 'Move the release to “Campaign Active”.']],
+      ['Days 1 to 30', 'Sustain', ['Reply to comments and DMs in the first 48 hours.', 'Repost fan content. Track saves, playlist adds and Shazams.', 'Plan the next teaser and log lessons in the release notes.']],
+    ];
+    return `<ol class="space-y-5">${phases.map(([when, title, items]) => `
+      <li class="grid gap-3 sm:grid-cols-[9rem_minmax(0,1fr)]">
+        <div><span class="chip">${esc(when)}</span></div>
+        <div>
+          <p class="font-semibold text-zinc-100">${esc(title)}</p>
+          <ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-zinc-400">${items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
+        </div>
+      </li>`).join('')}</ol>`;
+  }
+  function spotifyText(v) {
+    const genres = v.genres.length ? v.genres.join(', ') : '[genre tags]';
+    const when = v.date ? fmtLong(v.date) : '[release date]';
+    return [
+      `Editorial pitch: "${v.track || '[Track]'}" by ${v.artist || '[Artist]'} (Kampala, Uganda)`,
+      '',
+      'Hello Spotify editorial team,',
+      '',
+      `I am pitching "${v.track || '[Track]'}" by ${v.artist || '[Artist]'}, an unreleased single from Kampala, Uganda, for consideration on editorial playlists. The release is scheduled for ${when}.`,
+      '',
+      `Genre tags: ${genres}.`,
+      '',
+      `Cultural impact: ${v.impact || '[describe the cultural impact of the record]'}`,
+      '',
+      `Kampala radio and club traction: ${v.traction || '[add radio plays, club rotations and live shows]'}`,
+      '',
+      `Early signals: ${v.signals || '[add pre-saves, TikTok snippets and existing playlist adds]'}`,
+      '',
+      'Thank you for listening. Happy to share the full stems, cover art and a short bio on request.',
+      '',
+      v.sender || '[Name] · 7H Music Group · [email]',
+    ].join('\n');
+  }
+  function spotifyBody() {
+    const genreBoxes = ['Afrobeats', 'Afro-Pop', 'Dancehall'].map((g) => `<label class="tag-check"><input type="checkbox" name="genre" value="${g}" checked class="accent-brand" /> ${g}</label>`).join('');
+    return `
+    <form data-tpl="spotify" class="grid gap-6 lg:grid-cols-2">
+      <div class="grid min-w-0 gap-4">
+        <div class="grid gap-4 sm:grid-cols-2">
+          ${field('Artist', '<input class="input" name="artist" maxlength="80" value="Baranga" />')}
+          ${field('Track', '<input class="input" name="track" maxlength="120" value="Kampala Nights" />')}
+          ${field('Release date', `<input class="input" type="date" name="date" value="${addDays(todayISO(), 42)}" />`)}
+          ${field('Sign-off', '<input class="input" name="sender" maxlength="120" placeholder="Name · 7H Music Group · email" />')}
+        </div>
+        <div>
+          <span class="label">Genre tags</span>
+          <div class="flex flex-wrap gap-2">${genreBoxes}</div>
+        </div>
+        ${field('Cultural impact', '<textarea class="textarea" name="impact" rows="2" maxlength="600" placeholder="How the record reflects Kampala: language, dance, street culture"></textarea>')}
+        ${field('Kampala radio and club traction', '<textarea class="textarea" name="traction" rows="2" maxlength="600" placeholder="Radio plays, club rotations, live shows, press"></textarea>')}
+        ${field('Early signals', '<textarea class="textarea" name="signals" rows="2" maxlength="600" placeholder="Pre-saves, TikTok snippets, existing playlist adds"></textarea>')}
+      </div>
+      <div class="flex min-w-0 flex-col gap-3">
+        <span class="label">Copy-ready pitch</span>
+        <textarea id="tpl-spotify" class="textarea min-h-[24rem] flex-1 font-mono text-[12.5px] leading-relaxed" readonly aria-label="Generated Spotify pitch"></textarea>
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" class="btn btn-primary" data-action="copy-from" data-from="tpl-spotify">${ico('copy')} Copy pitch</button>
+          <p class="text-xs text-zinc-500">Paste into Spotify for Artists or into an email to your editor contact. Fill in every [bracketed] field first.</p>
+        </div>
+      </div>
+    </form>`;
+  }
+  function bookingText(v) {
+    const deposit = Math.round((v.fee * v.pct) / 100);
+    const money = (n) => (v.fee ? fmtUGX(n) : '[amount]');
+    return [
+      `Booking confirmation: ${v.artist || '[Artist]'} at ${v.venue || '[Venue]'}, ${v.date ? fmtDate(v.date) : '[Date]'}`,
+      '',
+      `Performance fee: ${money(v.fee)}`,
+      `Deposit to hold the date (${fmtPct(v.pct)}%): ${money(deposit)}, payable upfront. The date is secured once the deposit is received.`,
+      `Balance (${fmtPct(100 - v.pct)}%): ${money(v.fee - deposit)}, payable ${v.balanceWhen || '[on arrival / before soundcheck]'}.`,
+      'Cancellation and refund terms: [insert your terms].',
+      '',
+      'Technical rider (required)',
+      '• Sound: PA sized for the room, stage monitors for every performer, DI boxes for playback and a dedicated sound engineer.',
+      '• Backline: [DJ set-up / mixer / decks / microphones] supplied by the venue and tested before soundcheck.',
+      '• Stage and power: [minimum stage size], clean power supply with generator back-up.',
+      '• Hospitality: green room, drinking water and meals for [number] people, secure parking or transport.',
+      `• Schedule: load-in [time], soundcheck [time], doors [time], set length ${v.set ? `${v.set} minutes` : '[minutes]'}.`,
+    ].join('\n');
+  }
+  function bookingBody() {
+    return `
+    <form data-tpl="booking" class="grid gap-6 lg:grid-cols-2">
+      <div class="grid min-w-0 gap-4 sm:grid-cols-2">
+        ${field('Artist', '<input class="input" name="artist" maxlength="80" value="Baranga" />')}
+        ${field('Venue', '<input class="input" name="venue" maxlength="120" placeholder="Club or concert venue" />')}
+        ${field('Show date', '<input class="input" type="date" name="date" />')}
+        ${field('Set length (minutes)', '<input class="input num" type="number" min="0" max="600" name="set" value="45" />')}
+        ${field('Performance fee (UGX)', '<input class="input num" type="number" min="0" step="1000" name="fee" placeholder="e.g. 2000000" />')}
+        ${field('Deposit %', '<input class="input num" type="number" min="0" max="100" step="1" name="pct" value="50" />')}
+        ${field('Balance due', '<input class="input" name="balanceWhen" maxlength="120" placeholder="on arrival / before soundcheck" />', 'sm:col-span-2')}
+      </div>
+      <div class="flex min-w-0 flex-col gap-4">
+        <div class="grid grid-cols-2 gap-3">
+          <div class="stat"><p class="label">Upfront deposit</p><p id="bk-deposit" class="num font-display text-xl font-bold text-brand">Enter a fee</p></div>
+          <div class="stat"><p class="label">Balance</p><p id="bk-balance" class="num font-display text-xl font-bold text-zinc-100">Enter a fee</p></div>
+        </div>
+        <textarea id="tpl-booking" class="textarea min-h-[18rem] flex-1 font-mono text-[12.5px] leading-relaxed" readonly aria-label="Generated booking reminder"></textarea>
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" class="btn btn-primary" data-action="copy-from" data-from="tpl-booking">${ico('copy')} Copy reminder</button>
+          <p class="text-xs text-zinc-500">Send with the booking confirmation. The deposit secures the date.</p>
+        </div>
+      </div>
+    </form>`;
+  }
+  function socialBody() {
+    const rows = [
+      ['Week 6', 'Lock and announce', 'Studio behind-the-scenes clip', 'Save-the-date story', 'Roster reposts the announcement'],
+      ['Week 4', 'Cover reveal', 'Three cover-art reveal cuts', 'Poll: pick the cover', 'Each artist shares the reveal'],
+      ['Week 3', 'Pre-save push', '15-second hook teaser', 'Pre-save link in bio and stories', 'Pre-save from every roster account'],
+      ['Week 2', 'Teasers', 'Three or four TikTok snippets and a dance-challenge seed', 'WhatsApp broadcast to fans and DJs', 'Duet or stitch the snippets'],
+      ['Week 1', 'Countdown', 'Daily countdown posts', 'Countdown stickers and DJ shout-outs', 'Roster posts the countdown together'],
+      ['Release day', 'Drop', 'Official visualiser or video, if ready', 'Smart link and WhatsApp statuses', 'Staggered posts across the roster (below)'],
+      ['Days 1 to 14', 'Sustain', 'Reaction and fan-content reposts', 'Thank-you stories', 'Reply to every comment in the first 48 hours'],
+    ];
+    return `
+    <div class="overflow-x-auto rounded-2xl border border-white/[0.06]">
+      <table class="w-full min-w-[760px] text-left text-sm">
+        <thead class="table-head"><tr><th>When</th><th>Focus</th><th>Short-form video</th><th>Stories and WhatsApp</th><th>Roster action</th></tr></thead>
+        <tbody>${rows.map((r) => `<tr class="table-row">${r.map((c, i) => `<td class="px-4 py-3 align-top ${i === 0 ? 'whitespace-nowrap font-semibold text-zinc-100' : i === 1 ? 'text-zinc-200' : 'text-zinc-400'}">${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody>
+      </table>
+    </div>
+    <div class="mt-5 grid gap-3 sm:grid-cols-4">
+      ${[['09:00', 'Baranga'], ['11:00', 'Mr Fallback'], ['14:00', 'Smokie Cee'], ['17:00', 'Mike 1ne']].map(([t, n]) => `<div class="stat"><p class="num font-display text-lg font-bold text-brand">${t}</p><p class="text-sm text-zinc-300">${esc(n)}</p></div>`).join('')}
+    </div>
+    <p class="mt-3 text-xs text-zinc-500">Suggested release-day posting times in Kampala time (EAT). Adjust per release.</p>`;
+  }
+  function directoryBody() {
+    const sorted = db.contacts.slice().sort((a, b) => a.category.localeCompare(b.category) || a.org.localeCompare(b.org));
+    return `
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+      <p class="text-sm text-zinc-400">Public organisation details only. Verify contacts before outreach.</p>
+      <button type="button" class="btn btn-ghost btn-sm" data-action="new-contact">${ico('plus', 'size-3.5')} Add contact</button>
+    </div>
+    <div class="overflow-x-auto rounded-2xl border border-white/[0.06]">
+      <table class="w-full min-w-[840px] text-left text-sm">
+        <thead class="table-head"><tr><th>Organisation</th><th>Category</th><th>Purpose and notes</th><th>Link</th><th class="text-right">Actions</th></tr></thead>
+        <tbody>${sorted.map(contactRow).join('') || '<tr class="table-row"><td colspan="5" class="px-4 py-10 text-center text-zinc-500">No contacts yet.</td></tr>'}</tbody>
+      </table>
+    </div>`;
+  }
+  function contactRow(c) {
+    return `
+    <tr class="table-row">
+      <td class="px-4 py-3 align-top font-semibold text-zinc-100">${esc(c.org)}</td>
+      <td class="whitespace-nowrap px-4 py-3 align-top"><span class="chip">${esc(c.category)}</span></td>
+      <td class="px-4 py-3 align-top text-zinc-400"><p class="text-zinc-300">${esc(c.purpose || '—')}</p>${c.notes ? `<p class="mt-1 text-xs text-amber-300/80">${esc(c.notes)}</p>` : ''}</td>
+      <td class="px-4 py-3 align-top">${c.url ? `<a class="chip-link" href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">${ico('globe', 'size-3.5')} Website</a>` : '<span class="text-xs text-zinc-600">—</span>'}</td>
+      <td class="px-4 py-3 align-top"><div class="flex justify-end gap-1"><button type="button" class="icon-btn" data-action="edit-contact" data-id="${c.id}" aria-label="Edit ${esc(c.org)}">${ico('pencil')}</button><button type="button" class="icon-btn icon-btn-danger" data-action="delete-contact" data-id="${c.id}" aria-label="Delete ${esc(c.org)}">${ico('trash-2')}</button></div></td>
+    </tr>`;
+  }
+  function updateTemplate(tpl) {
+    const f = formData(tpl);
+    if (tpl.dataset.tpl === 'spotify') {
+      const out = $('#tpl-spotify', tpl);
+      if (out) out.value = spotifyText({
+        artist: str(f.artist, 80), track: str(f.track, 120), date: isoOk(f.date),
+        genres: $$('input[name="genre"]:checked', tpl).map((i) => i.value),
+        impact: str(f.impact, 600), traction: str(f.traction, 600), signals: str(f.signals, 600), sender: str(f.sender, 120),
+      });
+    } else if (tpl.dataset.tpl === 'booking') {
+      const fee = Math.max(0, Math.round(Number(f.fee) || 0));
+      const pct = Math.min(100, Math.max(0, Number(f.pct) || 0));
+      const deposit = Math.round((fee * pct) / 100);
+      const set = (id, text) => { const el = $(`#${id}`, tpl); if (el) el.textContent = text; };
+      set('bk-deposit', fee ? fmtUGX(deposit) : 'Enter a fee');
+      set('bk-balance', fee ? fmtUGX(fee - deposit) : 'Enter a fee');
+      const out = $('#tpl-booking', tpl);
+      if (out) out.value = bookingText({
+        artist: str(f.artist, 80), venue: str(f.venue, 120), date: isoOk(f.date), fee, pct,
+        set: Math.max(0, Math.round(Number(f.set) || 0)), balanceWhen: str(f.balanceWhen, 120),
+      });
+    }
+  }
+
+  /* ---- Settings ---- */
+  VIEWS.settings = function viewSettings() {
+    const bytes = new Blob([JSON.stringify(db)]).size;
+    const records = db.roster.length + db.releases.length + db.demos.length + db.splits.length + db.contacts.length;
+    const until = isUnlocked() ? timeOf(auth.session.exp) : '';
+    const pinInput = (name) => `<input class="input num tracking-[0.3em]" type="password" name="${name}" maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false" required />`;
+    return `
+    <div class="rise space-y-6">
+      ${pageHead('Settings', 'Security, data and backups', 'Everything is stored in this browser. Download a backup regularly so nothing is lost if browser data is cleared.')}
+      <div class="grid gap-6 xl:grid-cols-2">
+        <section class="card p-6">
+          <h2 class="section-title">Access PIN</h2>
+          <p class="mt-1 text-sm text-zinc-400">This device stays unlocked for 12 hours after your last activity${until ? ` (currently until ${until})` : ''}. Change the default PIN before sharing access.</p>
+          <form data-form="pin" class="mt-5 grid gap-4" autocomplete="off">
+            ${field('Current PIN', pinInput('current'))}
+            ${field('New PIN', pinInput('next'))}
+            ${field('Confirm new PIN', pinInput('confirm'))}
+            <p class="text-xs text-zinc-500">Exactly 6 letters or numbers. The default PIN cannot be reused.</p>
+            <div class="flex flex-wrap gap-2">
+              <button type="submit" class="btn btn-primary">${ico('shield-check')} Update PIN</button>
+              <button type="button" class="btn btn-ghost" data-action="lock">${ico('lock')} Lock now</button>
+            </div>
+          </form>
+        </section>
+        <section class="card p-6">
+          <h2 class="section-title">Backup and data</h2>
+          <p class="mt-1 text-sm text-zinc-400"><span class="num">${records}</span> records · <span class="num">${(bytes / 1024).toFixed(1)} KB</span> stored in this browser</p>
+          <div class="mt-5 grid gap-3">
+            <button type="button" class="qa" data-action="export-backup"><span class="qa-icon">${ico('download')}</span>Download backup (JSON)</button>
+            <label class="qa cursor-pointer"><span class="qa-icon">${ico('upload')}</span>Restore from a backup file<input type="file" accept="application/json,.json" class="sr-only" data-change="import-file" /></label>
+            <button type="button" class="qa" data-action="restore-sample"><span class="qa-icon">${ico('sparkles')}</span>Restore sample data</button>
+            <button type="button" class="qa qa-danger" data-action="erase-all"><span class="qa-icon">${ico('trash-2')}</span>Erase all data</button>
+          </div>
+        </section>
+        <section class="card p-6 xl:col-span-2">
+          <h2 class="section-title">About this build</h2>
+          <dl class="mt-4 grid gap-4 text-sm sm:grid-cols-3">
+            <div><dt class="label">Storage keys</dt><dd class="break-all text-zinc-400">${AUTH_KEY} · ${DATA_KEY}</dd></div>
+            <div><dt class="label">Libraries</dt><dd class="text-zinc-400">Tailwind CSS 4.3.3 · Lucide 1.53.0 (pinned CDN builds)</dd></div>
+            <div><dt class="label">Security note</dt><dd class="text-zinc-400">This PIN gate is a client-side lock for internal use. It is not server-side authentication.</dd></div>
+          </dl>
+        </section>
+      </div>
+    </div>`;
+  };
+
+  /* =====================================================================
+     Modals: artist, release, demo, contact
+     ===================================================================== */
+  function openArtistModal(id) {
+    const a = id ? db.roster.find((x) => x.id === id) : null;
+    const v = a || { name: '', location: 'Kampala, UG', genres: [], bio: '', links: { ...LINK_TPL }, contract: 'Active', contractEnd: '' };
+    openModal({
+      title: a ? `Edit ${a.name}` : 'Add artist',
+      subtitle: a ? 'Update the profile, streaming links and contract status.' : 'Create a roster profile. Links and contract details can be added now or later.',
+      form: 'artist',
+      wide: true,
+      body: `
+        ${a ? `<input type="hidden" name="id" value="${a.id}" />` : ''}
+        <div class="grid gap-4 sm:grid-cols-2">
+          ${field('Artist name *', `<input class="input" name="name" required maxlength="80" value="${esc(v.name)}" />`)}
+          ${field('Location', `<input class="input" name="location" maxlength="120" value="${esc(v.location)}" />`)}
+          ${field('Genres (comma separated)', `<input class="input" name="genres" maxlength="200" value="${esc(v.genres.join(', '))}" placeholder="Afrobeats, Afro-Pop" />`, 'sm:col-span-2')}
+          ${field('Bio', `<textarea class="textarea" name="bio" rows="4" maxlength="1500" placeholder="Official artist bio">${esc(v.bio)}</textarea>`, 'sm:col-span-2')}
+          ${LINKS.map(([k, label]) => field(`${label} URL`, `<input class="input" name="link_${k}" inputmode="url" maxlength="500" placeholder="https://" value="${esc(v.links?.[k] || '')}" />`)).join('')}
+          ${field('Contract status', `<select class="select" name="contract">${CONTRACT_STATUSES.map((s) => `<option${s === v.contract ? ' selected' : ''}>${s}</option>`).join('')}</select>`)}
+          ${field('Term ends', `<input class="input" type="date" name="contractEnd" value="${esc(v.contractEnd)}" />`)}
+        </div>
+        <p class="mt-4 text-xs leading-relaxed text-zinc-500">Streaming links start as search pages. Paste each artist’s official profile URL to replace them. A blank field removes that link.</p>`,
+      footer: `${a ? `<button type="button" class="btn btn-danger mr-auto" data-action="delete-artist" data-id="${a.id}">${ico('trash-2')} Remove artist</button>` : ''}<button type="button" class="btn btn-ghost" data-action="close-modal">Cancel</button><button type="submit" class="btn btn-primary">${a ? 'Save profile' : 'Add artist'}</button>`,
+    });
+  }
+  function openReleaseModal(id) {
+    const r = id ? db.releases.find((x) => x.id === id) : null;
+    const v = r || { title: '', artist: db.roster[0]?.name || '', date: addDays(todayISO(), 42), status: 'In Production', notes: '' };
+    openModal({
+      title: r ? 'Edit release' : 'New release',
+      subtitle: 'The six-week runway is calculated from the release date. Changing the date moves every due date.',
+      form: 'release',
+      body: `
+        ${r ? `<input type="hidden" name="id" value="${r.id}" />` : ''}
+        <div class="grid gap-4 sm:grid-cols-2">
+          ${field('Release title *', `<input class="input" name="title" required maxlength="120" value="${esc(v.title)}" placeholder="Track or project name" />`, 'sm:col-span-2')}
+          ${field('Artist *', `<input class="input" name="artist" list="artist-list" maxlength="80" value="${esc(v.artist)}" placeholder="Artist or collaboration" />`)}
+          ${field('Release date *', `<input class="input" type="date" name="date" required value="${esc(v.date)}" />`)}
+          ${field('Status', `<select class="select" name="status">${RELEASE_STATUSES.map((s) => `<option${s === v.status ? ' selected' : ''}>${s}</option>`).join('')}</select>`, 'sm:col-span-2')}
+          ${field('Notes', `<textarea class="textarea" name="notes" rows="3" maxlength="2000" placeholder="Distributor reference, pitch notes, creative direction">${esc(v.notes)}</textarea>`, 'sm:col-span-2')}
+        </div>`,
+      footer: `${r ? `<button type="button" class="btn btn-danger mr-auto" data-action="delete-release" data-id="${r.id}">${ico('trash-2')} Delete</button>` : ''}<button type="button" class="btn btn-ghost" data-action="close-modal">Cancel</button><button type="submit" class="btn btn-primary">${r ? 'Save changes' : 'Create release'}</button>`,
+    });
+  }
+  function openDemoModal(id) {
+    const d = id ? db.demos.find((x) => x.id === id) : null;
+    const v = d || { artist: '', track: '', genre: 'Afrobeats', contact: '', link: '', status: 'New', notes: '', received: todayISO() };
+    openModal({
+      title: d ? 'Edit demo' : 'Log a demo submission',
+      subtitle: 'Add the basics now. Notes and status can also be updated from the inbox.',
+      form: 'demo',
+      body: `
+        ${d ? `<input type="hidden" name="id" value="${d.id}" />` : ''}
+        <div class="grid gap-4 sm:grid-cols-2">
+          ${field('Artist name *', `<input class="input" name="artist" required maxlength="80" value="${esc(v.artist)}" placeholder="Artist or stage name" />`)}
+          ${field('Track title *', `<input class="input" name="track" required maxlength="120" value="${esc(v.track)}" placeholder="Demo title" />`)}
+          ${field('Genre', `<select class="select" name="genre">${GENRES.map((g) => `<option${g === v.genre ? ' selected' : ''}>${g}</option>`).join('')}</select>`)}
+          ${field('Received', `<input class="input" type="date" name="received" value="${esc(v.received)}" />`)}
+          ${field('Phone or email', `<input class="input" name="contact" maxlength="120" value="${esc(v.contact)}" placeholder="+256… or name@email.com" />`)}
+          ${field('Audio link', `<input class="input" name="link" maxlength="500" value="${esc(v.link)}" placeholder="SoundCloud, Drive or WhatsApp link" />`)}
+          ${field('Status', `<select class="select" name="status">${DEMO_STATUSES.map((s) => `<option${s === v.status ? ' selected' : ''}>${s}</option>`).join('')}</select>`)}
+          ${field('Manager notes', `<textarea class="textarea" name="notes" rows="3" maxlength="2000" placeholder="First impressions and next steps">${esc(v.notes)}</textarea>`, 'sm:col-span-2')}
+        </div>`,
+      footer: `${d ? `<button type="button" class="btn btn-danger mr-auto" data-action="delete-demo" data-id="${d.id}">${ico('trash-2')} Delete</button>` : ''}<button type="button" class="btn btn-ghost" data-action="close-modal">Cancel</button><button type="submit" class="btn btn-primary">${d ? 'Save demo' : 'Log demo'}</button>`,
+    });
+  }
+  function openContactModal(id) {
+    const c = id ? db.contacts.find((x) => x.id === id) : null;
+    const v = c || { org: '', category: 'Other', url: '', purpose: '', notes: '' };
+    openModal({
+      title: c ? 'Edit contact' : 'Add contact',
+      subtitle: 'Public organisation details only. Verify before outreach.',
+      form: 'contact',
+      body: `
+        ${c ? `<input type="hidden" name="id" value="${c.id}" />` : ''}
+        <div class="grid gap-4 sm:grid-cols-2">
+          ${field('Organisation *', `<input class="input" name="org" required maxlength="120" value="${esc(v.org)}" />`)}
+          ${field('Category', `<select class="select" name="category">${CONTACT_CATS.map((s) => `<option${s === v.category ? ' selected' : ''}>${s}</option>`).join('')}</select>`)}
+          ${field('Website', `<input class="input" name="url" maxlength="500" value="${esc(v.url)}" placeholder="https://" />`, 'sm:col-span-2')}
+          ${field('Purpose', `<textarea class="textarea" name="purpose" rows="3" maxlength="500">${esc(v.purpose)}</textarea>`, 'sm:col-span-2')}
+          ${field('Notes', `<input class="input" name="notes" maxlength="500" value="${esc(v.notes)}" placeholder="Verification status, named contact, etc." />`, 'sm:col-span-2')}
+        </div>`,
+      footer: `<button type="button" class="btn btn-ghost" data-action="close-modal">Cancel</button><button type="submit" class="btn btn-primary">${c ? 'Save contact' : 'Add contact'}</button>`,
+    });
+  }
+
+  /* =====================================================================
+     Form submissions
+     ===================================================================== */
+  const FORMS = {};
+  FORMS.artist = (form) => {
+    const f = formData(form);
+    const name = str(f.name, 80);
+    if (!name) return toast('Enter the artist name.', 'error');
+    const links = Object.fromEntries(LINKS.map(([k]) => [k, toUrl(f[`link_${k}`])]));
+    const data = {
+      name,
+      location: str(f.location, 120) || 'Kampala, UG',
+      genres: str(f.genres, 200).split(',').map((g) => g.trim()).filter(Boolean).slice(0, 6),
+      bio: str(f.bio, 1500),
+      links,
+      contract: pick(f.contract, CONTRACT_STATUSES, 'Draft'),
+      contractEnd: isoOk(f.contractEnd),
+    };
+    if (f.id) {
+      const a = db.roster.find((x) => x.id === f.id);
+      if (!a) return toast('That artist no longer exists.', 'error');
+      Object.assign(a, data);
+      toast('Artist profile saved.');
+    } else {
+      db.roster.push({ id: uid(), notes: '', ...data });
+      toast(`${name} added to the roster.`);
+    }
+    saveDb();
+    closeModal();
+    renderView();
+  };
+  FORMS.release = (form) => {
+    const f = formData(form);
+    const title = str(f.title, 120);
+    const date = isoOk(f.date);
+    if (!title) return toast('Give the release a title.', 'error');
+    if (!date) return toast('Choose a release date.', 'error');
+    const data = {
+      title,
+      artist: str(f.artist, 80),
+      date,
+      status: pick(f.status, RELEASE_STATUSES, 'In Production'),
+      notes: str(f.notes, 2000),
+    };
+    const r = f.id ? db.releases.find((x) => x.id === f.id) : null;
+    if (r) {
+      Object.assign(r, data);
+      toast('Release updated.');
+    } else {
+      db.releases.push({ id: uid(), ...data, checks: blankChecks(), createdAt: new Date().toISOString() });
+      toast(`${title} added to the planner.`);
+    }
+    saveDb();
+    closeModal();
+    renderView();
+  };
+  FORMS.demo = (form) => {
+    const f = formData(form);
+    const artist = str(f.artist, 80);
+    const track = str(f.track, 120);
+    if (!artist || !track) return toast('Add the artist name and track title.', 'error');
+    if (str(f.link, 500) && !toUrl(f.link)) return toast('That audio link does not look valid. Use an https:// link.', 'error');
+    const data = {
+      artist,
+      track,
+      genre: pick(f.genre, GENRES, 'Other'),
+      contact: str(f.contact, 120),
+      link: toUrl(f.link),
+      status: pick(f.status, DEMO_STATUSES, 'New'),
+      notes: str(f.notes, 2000),
+      received: isoOk(f.received) || todayISO(),
+    };
+    const d = f.id ? db.demos.find((x) => x.id === f.id) : null;
+    if (d) {
+      Object.assign(d, data);
+      toast('Demo updated.');
+    } else {
+      db.demos.push({ id: uid(), ...data });
+      toast('Demo logged.');
+    }
+    saveDb();
+    closeModal();
+    renderView();
+  };
+  FORMS.contact = (form) => {
+    const f = formData(form);
+    const org = str(f.org, 120);
+    if (!org) return toast('Enter the organisation name.', 'error');
+    if (str(f.url, 500) && !toUrl(f.url)) return toast('That website does not look valid. Use an https:// link.', 'error');
+    const data = {
+      org,
+      category: pick(f.category, CONTACT_CATS, 'Other'),
+      url: toUrl(f.url),
+      purpose: str(f.purpose, 500),
+      notes: str(f.notes, 500),
+    };
+    const c = f.id ? db.contacts.find((x) => x.id === f.id) : null;
+    if (c) {
+      Object.assign(c, data);
+      toast('Contact updated.');
+    } else {
+      db.contacts.push({ id: uid(), ...data });
+      toast('Contact added to the directory.');
+    }
+    saveDb();
+    closeModal();
+    renderView();
+  };
+  FORMS['split-edit'] = () => {
+    const s = db.splits.find((x) => x.id === modalSplitId);
+    if (!s || !modalDraft) {
+      closeModal();
+      return toast('That split sheet no longer exists.', 'error');
+    }
+    const blockers = splitBlockers(modalDraft);
+    if (blockers.length) return toast(blockers[0], 'error');
+    Object.assign(s, clone(modalDraft), { id: s.id, createdAt: s.createdAt, updatedAt: new Date().toISOString() });
+    saveDb();
+    closeModal();
+    renderView();
+    toast('Split sheet updated.');
+  };
+  FORMS.pin = (form) => changePin(form);
+
+  /* =====================================================================
+     Actions, change handlers and events
+     ===================================================================== */
+  function exportBackup() {
+    const payload = { app: '7h-manager', schema: 1, exportedAt: new Date().toISOString(), data: db };
+    downloadFile(`7h-manager-backup-${todayISO()}.json`, 'application/json', JSON.stringify(payload, null, 2));
+    toast('Backup downloaded. Keep it somewhere safe.');
+  }
+  function importBackup(input) {
+    const file = input.files?.[0];
+    input.value = '';
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) return toast('That file is too large to be a 7H Manager backup.', 'error');
+    const reader = new FileReader();
+    reader.onload = () => {
+      let parsed = null;
+      try { parsed = JSON.parse(String(reader.result)); } catch { parsed = null; }
+      if (!parsed || parsed.app !== '7h-manager' || !parsed.data || typeof parsed.data !== 'object') {
+        return toast('That file is not a 7H Manager backup.', 'error');
+      }
+      confirmBox({
+        title: 'Restore this backup?',
+        message: 'This replaces all data currently stored in this browser.',
+        confirmText: 'Restore backup',
+        danger: true,
+        onYes: () => { db = normalizeData(parsed.data); saveDb(); renderView(); toast('Backup restored.'); },
+      });
+    };
+    reader.onerror = () => toast('The file could not be read.', 'error');
+    reader.readAsText(file);
+  }
+
+  const ACTIONS = {
+    'open-nav': () => setNav(true),
+    'close-nav': () => setNav(false),
+    lock: () => lockDashboard('Dashboard locked.'),
+    'close-modal': () => closeModal(),
+    'confirm-yes': () => { const fn = confirmFn; closeModal(); fn?.(); },
+    'dismiss-sample': () => { db.sample = false; saveDb(); renderView(); },
+    'go-generator': () => { pendingScroll = 'generator'; navigate('roster'); },
+    'rel-view': (el) => { relView = el.dataset.v === 'timeline' ? 'timeline' : 'board'; renderView(); },
+    'demo-filter': (el) => { demoFilter = el.dataset.v; updateDemos(); },
+    'new-artist': () => openArtistModal(null),
+    'edit-artist': (el) => openArtistModal(el.dataset.id),
+    'delete-artist': (el) => {
+      const id = el.dataset.id;
+      confirmBox({
+        title: 'Remove artist?', confirmText: 'Remove', danger: true,
+        message: 'This removes the artist profile from the roster. Releases and split sheets that name the artist are kept.',
+        onYes: () => { db.roster = db.roster.filter((a) => a.id !== id); saveDb(); renderView(); toast('Artist removed from the roster.'); },
+      });
+    },
+    'new-release': () => openReleaseModal(null),
+    'edit-release': (el) => openReleaseModal(el.dataset.id),
+    'delete-release': (el) => {
+      const id = el.dataset.id;
+      confirmBox({
+        title: 'Delete release?', confirmText: 'Delete', danger: true,
+        message: 'This removes the release and its runway checklist. This cannot be undone.',
+        onYes: () => { db.releases = db.releases.filter((r) => r.id !== id); saveDb(); renderView(); toast('Release deleted.'); },
+      });
+    },
+    'new-demo': () => openDemoModal(null),
+    'edit-demo': (el) => openDemoModal(el.dataset.id),
+    'delete-demo': (el) => {
+      const id = el.dataset.id;
+      confirmBox({
+        title: 'Delete demo?', confirmText: 'Delete', danger: true,
+        message: 'This removes the demo and its notes from the inbox. This cannot be undone.',
+        onYes: () => { db.demos = db.demos.filter((d) => d.id !== id); saveDb(); renderView(); toast('Demo deleted.'); },
+      });
+    },
+    'new-contact': () => openContactModal(null),
+    'edit-contact': (el) => openContactModal(el.dataset.id),
+    'delete-contact': (el) => {
+      const id = el.dataset.id;
+      confirmBox({
+        title: 'Delete contact?', confirmText: 'Delete', danger: true,
+        message: 'This removes the contact from your directory. The organisation itself is not affected.',
+        onYes: () => { db.contacts = db.contacts.filter((c) => c.id !== id); saveDb(); renderView(); toast('Contact deleted.'); },
+      });
+    },
+    'split-save': () => saveInlineSplit(),
+    'split-reset': () => confirmBox({
+      title: 'Clear the generator?', confirmText: 'Clear form', danger: true,
+      message: 'This clears the form on this page. Saved sheets in the archive are not affected.',
+      onYes: () => { db.draft = blankSplit(); saveDb(); renderView(); toast('Form cleared.'); },
+    }),
+    'split-print': (el) => printSheet(sheetHTML(draftOf(el.dataset.scope))),
+    'split-print-modal': () => { if (modalDraft) printSheet(sheetHTML(modalDraft)); },
+    'split-print-id': (el) => { const s = db.splits.find((x) => x.id === el.dataset.id); if (s) printSheet(sheetHTML(s)); },
+    'split-download': (el) => downloadSheet(draftOf(el.dataset.scope)),
+    'split-copy': (el) => copyText(sheetText(draftOf(el.dataset.scope))),
+    'split-edit': (el) => openSplitModal(el.dataset.id),
+    'split-delete': (el) => {
+      const id = el.dataset.id;
+      confirmBox({
+        title: 'Delete split sheet?', confirmText: 'Delete', danger: true,
+        message: 'This removes the saved split sheet from the archive. This cannot be undone.',
+        onYes: () => { db.splits = db.splits.filter((s) => s.id !== id); saveDb(); renderView(); toast('Split sheet deleted.'); },
+      });
+    },
+    'split-add-writer': (el) => {
+      const scope = el.dataset.scope;
+      const s = draftOf(scope);
+      if (!s || s.writers.length >= 12) return;
+      s.writers.push({ name: '', pct: 0 });
+      touchDraft(scope);
+      refreshScope(scope);
+    },
+    'split-remove-writer': (el) => {
+      const scope = el.dataset.scope;
+      const s = draftOf(scope);
+      const i = Number(el.dataset.i);
+      if (!s || s.writers.length < 2 || !s.writers[i]) return;
+      s.writers.splice(i, 1);
+      touchDraft(scope);
+      refreshScope(scope);
+    },
+    'copy-from': (el) => copyText($(`#${el.dataset.from}`)?.value || ''),
+    'export-backup': () => exportBackup(),
+    'restore-sample': () => confirmBox({
+      title: 'Restore sample data?', confirmText: 'Restore sample', danger: true,
+      message: 'This replaces everything in this browser with the sample roster, releases, demos and contacts.',
+      onYes: () => { db = seedData(); saveDb(); renderView(); toast('Sample data restored.'); },
+    }),
+    'erase-all': () => confirmBox({
+      title: 'Erase all data?', confirmText: 'Erase everything', danger: true,
+      message: 'This permanently removes the roster, releases, demos, split sheets and contacts from this browser. Download a backup first if you need it.',
+      onYes: () => { db = emptyData(); saveDb(); renderView(); toast('All data erased.'); },
+    }),
+  };
+
+  function onClick(e) {
+    if (!(e.target instanceof Element)) return;
+    if (e.target.closest('#pin-cells')) { $('#pin')?.focus(); return; }
+    const el = e.target.closest('[data-action]');
+    if (!el) return;
+    const fn = ACTIONS[el.dataset.action];
+    if (fn) fn(el, e);
+  }
+  function onInput(e) {
+    const t = e.target;
+    if (!(t instanceof Element)) return;
+    if (t.id === 'pin') {
+      t.value = t.value.replace(/[^A-Za-z0-9]/g, '').slice(0, 6);
+      return paintPin();
+    }
+    if (t.dataset.search === 'demos') {
+      demoQuery = t.value;
+      return updateDemos();
+    }
+    const scopeEl = t.closest('[data-split-scope]');
+    if (scopeEl && (t.dataset.f || t.dataset.writer !== undefined)) return splitInput(scopeEl, t);
+    const tpl = t.closest('[data-tpl]');
+    if (tpl) updateTemplate(tpl);
+  }
+  function onChange(e) {
+    const t = e.target;
+    if (!(t instanceof Element)) return;
+    const tpl = t.closest('[data-tpl]');
+    if (tpl) updateTemplate(tpl);
+    const k = t.dataset.change;
+    if (!k) return;
+    const id = t.dataset.id;
+    if (k === 'artist-contract') {
+      const a = db.roster.find((x) => x.id === id);
+      if (a) {
+        a.contract = pick(t.value, CONTRACT_STATUSES, a.contract);
+        saveDb();
+        renderView();
+        toast(`${a.name}: contract set to ${a.contract}.`);
+      }
+    } else if (k === 'artist-notes') {
+      const a = db.roster.find((x) => x.id === id);
+      if (a) { a.notes = str(t.value, 2000); saveDb(); toast('Roster note saved.'); }
+    } else if (k === 'release-check') {
+      const r = db.releases.find((x) => x.id === id);
+      if (r) { r.checks[t.dataset.key] = t.checked; saveDb(); renderView(); }
+    } else if (k === 'release-status') {
+      const r = db.releases.find((x) => x.id === id);
+      if (r) {
+        r.status = pick(t.value, RELEASE_STATUSES, r.status);
+        saveDb();
+        renderView();
+        toast(`${r.title} moved to ${r.status}.`);
+      }
+    } else if (k === 'demo-status') {
+      const d = db.demos.find((x) => x.id === id);
+      if (d) {
+        d.status = pick(t.value, DEMO_STATUSES, d.status);
+        saveDb();
+        updateDemos();
+        updateNav(currentRoute());
+        toast(`${d.artist}: ${d.status}.`);
+      }
+    } else if (k === 'demo-notes') {
+      const d = db.demos.find((x) => x.id === id);
+      if (d) { d.notes = str(t.value, 2000); saveDb(); toast('Demo notes saved.'); }
+    } else if (k === 'split-status') {
+      const s = db.splits.find((x) => x.id === id);
+      if (s) {
+        s.status = pick(t.value, SPLIT_STATUSES, s.status);
+        s.updatedAt = new Date().toISOString();
+        saveDb();
+        renderView();
+      }
+    } else if (k === 'import-file') {
+      importBackup(t);
+    }
+  }
+  function onSubmit(e) {
+    const form = e.target;
+    if (!(form instanceof HTMLFormElement)) return;
+    if (form.id === 'login-form') { e.preventDefault(); onLoginSubmit(); return; }
+    if (form.dataset.tpl) { e.preventDefault(); return; }
+    if (form.dataset.form) {
+      e.preventDefault();
+      const fn = FORMS[form.dataset.form];
+      if (fn) fn(form);
+    }
+  }
+  function onKeydown(e) {
+    touchSession();
+    if (e.key === 'Escape') {
+      if (isModalOpen()) closeModal();
+      else if (navOpen) setNav(false);
+    } else if (e.key === 'Tab' && isModalOpen()) {
+      trapFocus(e);
+    }
+  }
+  function onToggle(e) {
+    const d = e.target;
+    if (d instanceof HTMLDetailsElement && d.dataset.acc) detailsState[d.dataset.acc] = d.open;
+  }
+  function onStorage(e) {
+    if (e.key === AUTH_KEY) {
+      auth = readAuth() || auth;
+      if (isUnlocked() !== shellReady) renderApp();
+    } else if (e.key === DATA_KEY && e.newValue) {
+      try {
+        db = normalizeData(JSON.parse(e.newValue));
+        if (shellReady) renderView();
+      } catch { /* ignore malformed writes from other tabs */ }
+    }
+  }
+
+  /* Drag and drop for the release board */
+  function onDragStart(e) {
+    const card = e.target.closest?.('[data-drag-release]');
+    if (!card) return;
+    dragId = card.dataset.dragRelease;
+    e.dataTransfer?.setData('text/plain', dragId);
+    if (e.dataTransfer) e.dataTransfer.effectAllowed = 'move';
+    requestAnimationFrame(() => card.classList.add('is-dragging'));
+  }
+  function onDragOver(e) {
+    const col = e.target.closest?.('[data-drop-status]');
+    if (!col || !dragId) return;
+    e.preventDefault();
+    if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+    $$('.drop-col.drop-hover').forEach((c) => { if (c !== col) c.classList.remove('drop-hover'); });
+    col.classList.add('drop-hover');
+  }
+  function onDragLeave(e) {
+    const col = e.target.closest?.('[data-drop-status]');
+    if (col && !col.contains(e.relatedTarget)) col.classList.remove('drop-hover');
+  }
+  function onDrop(e) {
+    const col = e.target.closest?.('[data-drop-status]');
+    if (!col || !dragId) return;
+    e.preventDefault();
+    const st = col.dataset.dropStatus;
+    const r = db.releases.find((x) => x.id === dragId);
+    dragId = null;
+    if (r && RELEASE_STATUSES.includes(st) && r.status !== st) {
+      r.status = st;
+      saveDb();
+      renderView();
+      toast(`${r.title} moved to ${st}.`);
+    } else {
+      renderView();
+    }
+  }
+  function onDragEnd() {
+    dragId = null;
+    $$('.release-card.is-dragging').forEach((c) => c.classList.remove('is-dragging'));
+    $$('.drop-col.drop-hover').forEach((c) => c.classList.remove('drop-hover'));
+  }
+
+  function bindEvents() {
+    document.addEventListener('click', onClick);
+    document.addEventListener('change', onChange);
+    document.addEventListener('input', onInput);
+    document.addEventListener('submit', onSubmit);
+    document.addEventListener('keydown', onKeydown);
+    document.addEventListener('focusin', (e) => { if (e.target.id === 'pin') paintPin(); });
+    document.addEventListener('focusout', (e) => { if (e.target.id === 'pin') paintPin(); });
+    document.addEventListener('toggle', onToggle, true);
+    document.addEventListener('pointerdown', touchSession, { passive: true });
+    document.addEventListener('dragstart', onDragStart);
+    document.addEventListener('dragover', onDragOver);
+    document.addEventListener('dragleave', onDragLeave);
+    document.addEventListener('drop', onDrop);
+    document.addEventListener('dragend', onDragEnd);
+    window.addEventListener('hashchange', () => {
+      if (shellReady && isUnlocked()) { setNav(false); renderView(); }
+    });
+    window.addEventListener('storage', onStorage);
+    setInterval(tick, 15000);
+  }
+
+  /* =====================================================================
+     Boot
+     ===================================================================== */
+  async function boot() {
+    const style = document.createElement('style');
+    style.textContent = SHEET_CSS;
+    document.head.append(style);
+    db = loadData();
+    try {
+      await ensureAuth();
+    } catch {
+      $('#app').innerHTML = `
+        <div class="grid min-h-screen place-items-center px-6">
+          <div class="card max-w-md p-8 text-center">
+            <h1 class="font-display text-xl font-bold text-zinc-50">A secure context is required</h1>
+            <p class="mt-3 text-sm leading-relaxed text-zinc-400">7H Manager checks the PIN with Web Crypto, which only runs over HTTPS or on localhost. Open the deployed HTTPS link, or run the app on localhost.</p>
+          </div>
+        </div>`;
+      return;
+    }
+    if (!storeGet(DATA_KEY) || pendingNotice) saveDb();
+    bindEvents();
+    if (!location.hash) history.replaceState(null, '', '#/overview');
+    renderApp();
+    if (pendingNotice) {
+      toast(pendingNotice, 'error');
+      pendingNotice = '';
+    }
+  }
+
+  boot();
+})();
+</script>
+</body>
+</html>
