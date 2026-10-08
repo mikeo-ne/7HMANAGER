@@ -253,15 +253,21 @@
   ];
 
   const DIRECTORY = [
-    { org: 'ONErpm', category: 'Distribution', purpose: 'Digital distribution and marketing partner. Every release is delivered here (Week 4).', url: 'https://onerpm.com', notes: '' },
-    { org: 'Spotify for Artists', category: 'Pitching', purpose: 'Editorial pitch for one unreleased track per release. Spotify’s stated minimum lead time is 7 days, so the SOP pitches in Week 3.', url: 'https://artists.spotify.com', notes: 'Verify current pitch rules in Spotify for Artists.' },
-    { org: 'Matchfy.io', category: 'Pitching', purpose: 'Connects artists with independent Spotify playlist curators (Week 3).', url: 'https://matchfy.io', notes: '' },
-    { org: 'Apple Music for Artists', category: 'Pitching', purpose: 'Artist profile, analytics and editorial pitching. Confirm current pitch access with ONErpm.', url: 'https://artists.apple.com', notes: '' },
-    { org: 'Uganda Performing Rights Society (UPRS)', category: 'Rights & Royalties', purpose: 'Collective management body for performance and mechanical royalties. Ask about registration and split-sheet requirements.', url: 'https://x.com/UgandaPRS', notes: 'Verify membership requirements before relying on this.' },
-    { org: 'Uganda Registration Services Bureau (URSB)', category: 'Rights & Royalties', purpose: 'Copyright registration and recordal for musical works in Uganda.', url: 'https://ursb.go.ug', notes: '' },
-    { org: 'Kampala FM radio', category: 'Radio', purpose: 'Capital FM, Galaxy FM, Beat FM and other Kampala stations. Contact each station’s music or programme team.', url: '', notes: 'Verify current contacts before outreach.' },
-    { org: 'Boomplay Music', category: 'Streaming', purpose: 'Major African streaming platform. Check its artist and creator programmes.', url: 'https://www.boomplay.com', notes: '' },
-    { org: 'Audiomack', category: 'Streaming', purpose: 'Streaming platform popular with African audiences. Check artist tools and charts.', url: 'https://audiomack.com', notes: '' },
+    { org: 'ONErpm', category: 'Distribution', purpose: 'Digital distribution and marketing partner. Every release is delivered here (Week 4). Its distribution-partners page lists Boomplay among the stores it delivers to.', url: 'https://onerpm.com', notes: 'Check fees and royalty terms before signing.' },
+    { org: 'Spotify for Artists', category: 'Pitching', purpose: 'Editorial pitch for one unreleased song at a time, at least 7 days before release. A pitched song is also added to followers’ Release Radar. Pitch under Music, then Upcoming. The next pitch opens once the pitched song goes live.', url: 'https://artists.spotify.com', notes: 'Checked on 8 Oct 2026 against Spotify’s support article on pitching.' },
+    { org: 'Matchfy.io', category: 'Pitching', purpose: 'Paid service that sends your track to playlist curators and influencers matched to your genre (Week 3).', url: 'https://matchfy.io', notes: 'Paid promotion. Compare prices and terms, and check that outreach follows Spotify’s rules.' },
+    { org: 'Apple Music for Artists', category: 'Pitching', purpose: 'Artist profile, analytics and Shazam data. Editorial pitches for Apple Music are submitted through Apple Music Connect by labels and distributors, so ask ONErpm to submit yours.', url: 'https://artists.apple.com', notes: 'Lead time for Apple pitches varies by source. Confirm it with your distributor.' },
+    { org: 'Uganda Performing Right Society (UPRS)', category: 'Rights & Royalties', purpose: 'Collecting society for musicians, songwriters, composers and publishers in Uganda. Join and declare works through the membership portal on the UPRS website.', url: 'https://uprs.go.ug', notes: 'Office: Plot 2240, Diplomat Zone, Kansanga Ggaba Road, Kampala. Phone numbers from the UPRS About page: +256 771 952 357 and +256 751 067 197. Email info@uprs.go.ug from the UPRS Facebook page. Verify before use.' },
+    { org: 'Uganda Registration Services Bureau (URSB)', category: 'Rights & Royalties', purpose: 'Registers copyright and neighbouring rights under the Copyright and Neighbouring Rights Act, Cap 222. Since 26 September 2025, applications no longer need to be gazetted.', url: 'https://ursb.go.ug', notes: 'Copyright enquiries: copyright@ursb.go.ug. Confirm current fees and forms on the URSB site.' },
+    { org: 'Capital FM 91.3', category: 'Radio', purpose: '91.3 FM, Kampala. Part of the Capital Radio group, which also runs Beat FM and KIIS.', url: '', notes: 'Frequency from public listings. Verify the music or programme contact before outreach.' },
+    { org: 'Galaxy FM 100.2', category: 'Radio', purpose: '100.2 FM, Kampala.', url: '', notes: 'Frequency from public listings. Verify the music or programme contact before outreach.' },
+    { org: 'Beat FM 96.3', category: 'Radio', purpose: '96.3 FM, Kampala. Capital Radio sister station.', url: '', notes: 'Frequency from public listings. Verify the music or programme contact before outreach.' },
+    { org: 'Radio Simba 97.3', category: 'Radio', purpose: '97.3 FM, Kampala.', url: '', notes: 'Frequency from public listings. Verify the music or programme contact before outreach.' },
+    { org: 'Power FM 104.1', category: 'Radio', purpose: '104.1 FM, Kampala.', url: '', notes: 'Frequency from public listings. Verify the music or programme contact before outreach.' },
+    { org: 'CBS 88.8', category: 'Radio', purpose: '88.8 FM (CBS Ey’Obujjajja), Kampala. CBS also runs a station on 89.2 FM.', url: '', notes: 'Frequency from public listings. Verify the music or programme contact before outreach.' },
+    { org: 'KIIS 100.9', category: 'Radio', purpose: '100.9 FM, Kampala. Capital Radio sister station.', url: '', notes: 'Frequency from public listings. Verify the music or programme contact before outreach.' },
+    { org: 'Boomplay Music', category: 'Streaming', purpose: 'Large African music streaming app. ONErpm lists Boomplay as one of its distribution partners.', url: 'https://www.boomplay.com', notes: 'Check the artist and creator programmes on the site.' },
+    { org: 'Audiomack', category: 'Streaming', purpose: 'Free uploads, fan statistics and private pre-release listening links in the Audiomack Creator app.', url: 'https://audiomack.com', notes: 'Check the artist tools in the Creator app.' },
     { org: 'YouTube Studio', category: 'Streaming', purpose: 'Uploads, metadata and analytics for music videos and Shorts.', url: 'https://studio.youtube.com', notes: '' },
   ];
 
@@ -446,6 +452,7 @@
   let auth = null;
   let shellReady = false;
   let pendingNotice = '';
+  let pendingTone = 'error';
   let pendingScroll = null;
   let relView = 'board';
   let demoFilter = 'All';
@@ -469,66 +476,38 @@
     };
   }
   function emptyData() {
-    return { sample: false, roster: [], releases: [], demos: [], splits: [], contacts: [], draft: blankSplit() };
-  }
-  function searchLinks(name) {
-    const q = encodeURIComponent(`${name} Kampala`);
-    return {
-      spotify: `https://open.spotify.com/search/${encodeURIComponent(name)}`,
-      apple: `https://music.apple.com/search?term=${q}`,
-      youtube: `https://www.youtube.com/results?search_query=${q}`,
-      instagram: '',
-      tiktok: '',
-    };
+    return { roster: [], releases: [], demos: [], splits: [], contacts: [], draft: blankSplit() };
   }
   function seedData() {
+    /* 7H starter records. Only public, checkable facts are included (see DATA-SOURCES.md).
+       Contract terms, split sheets, demo submissions and private notes are left for the team. */
     const now = new Date().toISOString();
-    const ago = (n) => new Date(Date.now() - n * 864e5).toISOString();
-    const mkArtist = (name, genres) => ({
-      id: uid(), name, location: 'Kampala, UG', genres,
-      bio: 'Kampala-based artist on the 7H Music Group roster. Replace this placeholder with the official bio.',
-      links: searchLinks(name), contract: 'Active', contractEnd: '', notes: '',
+    const mkArtist = (name, o = {}) => ({
+      id: uid(), name, location: 'Kampala, UG', genres: o.genres || [],
+      bio: o.bio || '', links: { ...LINK_TPL, ...(o.links || {}) },
+      contract: 'Draft', contractEnd: '', notes: o.notes || '',
     });
     const roster = [
-      mkArtist('Baranga', ['Afro-Pop', 'Afrobeats']),
-      mkArtist('Mr Fallback', ['Dancehall', 'Afrobeats']),
-      mkArtist('Smokie Cee', ['Afro-Pop', 'Amapiano']),
-      mkArtist('Mike 1ne', ['Hip-Hop', 'Afrobeats']),
+      mkArtist('Baranga', {
+        bio: 'Ugandan artist. The album CHAPTERS I NEVER WROTE (8 May 2026) includes collaborations with Mr Fallback, Deejay KLVN, Tungi, King Avo and Mellan Kunta.',
+        links: { apple: 'https://music.apple.com/ug/artist/baranga/1764683984' },
+        notes: 'Bio and Apple Music link come from the public Apple Music artist page. Replace the bio with the official one.',
+      }),
+      mkArtist('Mr Fallback'),
+      mkArtist('Smokie Cee'),
+      mkArtist('Mike 1ne'),
     ];
-    const mkRelease = (title, artist, date, status, done, notes = '') => ({
-      id: uid(), title, artist, date, status, notes, createdAt: now,
-      checks: Object.fromEntries(CHECKS.map((c) => [c.key, done.includes(c.key)])),
+    const mkRelease = (title, artist, date, notes) => ({
+      id: uid(), title, artist, date, status: 'Released', notes, createdAt: now,
+      checks: Object.fromEntries(CHECKS.map((c) => [c.key, false])),
     });
     const releases = [
-      mkRelease('Kampala Nights', 'Baranga', addDays(todayISO(), 42), 'In Production', [], 'Sample record. Replace with the real project details.'),
-      mkRelease('Fallback Season', 'Mr Fallback', addDays(todayISO(), 21), 'Uploaded to ONErpm', ['w6', 'w4']),
-      mkRelease('Kikuubo Riddim', 'Smokie Cee', todayISO(), 'Campaign Active', ['w6', 'w4', 'w3', 'w2']),
-      mkRelease('Neon Ebony', 'Mike 1ne', addDays(todayISO(), -10), 'Released', CHECKS.map((c) => c.key)),
+      mkRelease('CHAPTERS I NEVER WROTE', 'Baranga', '2026-05-08', 'Album, 7 songs. Release date from the Apple Music artist page. Features: Mr Fallback (Breathe, Wagwuan), Deejay KLVN, Tungi, King Avo, Kravynz and Mellan Kunta.'),
+      mkRelease('Badman (feat. STANDO & Andrinah)', 'Baranga', '2025-05-03', 'Single. Release date from Apple Music.'),
+      mkRelease('Confirm (feat. Smokie Cee)', 'Baranga', '2025-02-23', 'Single featuring Smokie Cee. Release date from Apple Music.'),
     ];
-    const mkDemo = (artist, track, genre, contact, status, notes, daysAgo) => ({
-      id: uid(), artist, track, genre, contact, link: '', status, notes, received: addDays(todayISO(), -daysAgo),
-    });
-    const demos = [
-      mkDemo('Ssali Flow', 'Kisubi Nights', 'Afro-Pop', '+256 700 000 001', 'New', 'Strong chorus hook. Ask for stems.', 2),
-      mkDemo('Akello Sounds', 'Kabalagala Sunday', 'Dancehall', 'akello.sounds@example.com', 'Shortlisted', 'Great bounce for dancehall. Book a studio session.', 5),
-      mkDemo('DJ Mutima', 'Nakasero Heat', 'Afrobeats', '+256 700 000 002', 'New', 'Club-tested in two venues. Needs a clean mix.', 1),
-      mkDemo('Nalongo Beats', 'Ggaba Waves', 'Amapiano', '+256 700 000 003', 'Reviewing', 'Goes to the A&R panel on Thursday.', 9),
-      mkDemo('Kato Grey', 'Owino Market Blues', 'Hip-Hop', '+256 700 000 004', 'Signed', 'Sample signing. Contract tracked in the roster.', 30),
-      mkDemo('Lady Nsubuga', 'Kiteezi Rain', 'R&B', '+256 700 000 005', 'Declined', 'Good vocals, but not a fit for the current roster.', 21),
-    ];
-    const splits = [{
-      id: uid(), track: 'Neon Ebony', project: 'Neon Ebony (single)', isrc: '', date: addDays(todayISO(), -10),
-      artist: 'Mike 1ne', producer: 'Studio producer', governingLaw: 'Republic of Uganda',
-      master: { artist: 50, producer: 20, label: 30 },
-      writers: [{ name: 'Mike 1ne', pct: 50 }, { name: 'Studio producer', pct: 50 }],
-      status: 'Signed', createdAt: ago(10), updatedAt: ago(10),
-    }];
     const contacts = DIRECTORY.map((c) => ({ id: uid(), org: c.org, category: c.category, purpose: c.purpose, url: c.url, notes: c.notes }));
-    const draft = {
-      ...blankSplit(), track: 'Kampala Nights', project: 'Kampala Nights (single)', artist: 'Baranga', producer: 'Studio producer',
-      writers: [{ name: 'Baranga', pct: 60 }, { name: 'Studio producer', pct: 40 }],
-    };
-    return { sample: true, roster, releases, demos, splits, contacts, draft };
+    return { roster, releases, demos: [], splits: [], contacts, draft: blankSplit() };
   }
   function normSplit(x) {
     const m = x.master && typeof x.master === 'object' ? x.master : {};
@@ -576,16 +555,62 @@
       purpose: str(x.purpose, 500), url: toUrl(x.url), notes: str(x.notes, 500),
     })).filter((c) => c.org);
     const draft = d.draft && typeof d.draft === 'object' ? { ...normSplit(d.draft), id: '' } : blankSplit();
-    return { sample: d.sample === true, roster, releases, demos, splits, contacts, draft };
+    return { roster, releases, demos, splits, contacts, draft };
+  }
+  /* Sample records from the first release. Only these are removed when old browser data is migrated. */
+  const LEGACY_SAMPLE = {
+    artists: ['Baranga', 'Mr Fallback', 'Smokie Cee', 'Mike 1ne'],
+    releases: ['Kampala Nights', 'Fallback Season', 'Kikuubo Riddim', 'Neon Ebony'],
+    demos: ['Ssali Flow', 'Akello Sounds', 'DJ Mutima', 'Nalongo Beats', 'Kato Grey', 'Lady Nsubuga'],
+    tracks: ['Kampala Nights', 'Neon Ebony'],
+    orgs: ['ONErpm', 'Spotify for Artists', 'Matchfy.io', 'Apple Music for Artists', 'Uganda Performing Rights Society (UPRS)', 'Uganda Registration Services Bureau (URSB)', 'Kampala FM radio', 'Boomplay Music', 'Audiomack', 'YouTube Studio'],
+  };
+  function migrateSample(old) {
+    const seed = seedData();
+    const list = (x) => (Array.isArray(x) ? x : []);
+    const named = (names, key) => (x) => names.includes(String(x?.[key] ?? '').trim());
+    const other = (names, key) => (x) => !named(names, key)(x);
+    // The four starter artists keep any contract status, note and official link the team set in the sample data.
+    const roster = seed.roster.map((a) => {
+      const prev = list(old.roster).find((p) => named(LEGACY_SAMPLE.artists, 'name')(p) && String(p.name).trim() === a.name);
+      if (!prev) return a;
+      const official = Object.fromEntries(Object.entries(prev.links || {}).filter(([, v]) => v && !/search|results\?/i.test(String(v))));
+      return {
+        ...a,
+        links: { ...a.links, ...official },
+        contract: prev.contract && prev.contract !== 'Active' ? prev.contract : a.contract,
+        contractEnd: prev.contractEnd || '',
+        notes: prev.notes || a.notes,
+      };
+    });
+    const userContacts = list(old.contacts).filter(other(LEGACY_SAMPLE.orgs, 'org'));
+    return normalizeData({
+      roster: [...roster, ...list(old.roster).filter(other(LEGACY_SAMPLE.artists, 'name'))],
+      releases: [...seed.releases, ...list(old.releases).filter(other(LEGACY_SAMPLE.releases, 'title'))],
+      demos: list(old.demos).filter(other(LEGACY_SAMPLE.demos, 'artist')),
+      splits: list(old.splits).filter(other(LEGACY_SAMPLE.tracks, 'track')),
+      contacts: [...seed.contacts.filter((c) => !userContacts.some((u) => u.org === c.org)), ...userContacts],
+      draft: old.draft && !LEGACY_SAMPLE.tracks.includes(String(old.draft.track || '').trim()) ? old.draft : seed.draft,
+    });
   }
   function loadData() {
     const raw = storeGet(DATA_KEY);
     if (!raw) return seedData();
     try {
-      return normalizeData(JSON.parse(raw));
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object' && parsed.sample === true) {
+        // Old sample data: keep a copy, remove the sample records and keep anything added by hand.
+        storeSet(`${DATA_KEY}.sample.${Date.now()}`, raw);
+        const fresh = migrateSample(parsed);
+        storeSet(DATA_KEY, JSON.stringify(fresh));
+        pendingNotice = 'Sample records were replaced with the 7H starter data. Records you added were kept, and a copy of the previous data is saved in this browser.';
+        pendingTone = 'ok';
+        return fresh;
+      }
+      return normalizeData(parsed);
     } catch {
       storeSet(`${DATA_KEY}.corrupt.${Date.now()}`, raw);
-      pendingNotice = 'Saved data could not be read, so sample data was loaded. A copy of the unreadable data was kept in this browser.';
+      pendingNotice = 'Saved data could not be read, so the 7H starter data was loaded. A copy of the unreadable data was kept in this browser.';
       return seedData();
     }
   }
@@ -700,12 +725,6 @@
       </div>
       <p class="num mt-4 font-display text-3xl font-extrabold tracking-tight text-zinc-50">${esc(value)}</p>
       <p class="mt-1 truncate text-xs text-zinc-500">${sub}</p>
-    </div>`;
-  const sampleBanner = () => `
-    <div class="card-tight flex flex-wrap items-center gap-3 p-4">
-      <span class="grid size-9 shrink-0 place-items-center rounded-xl bg-amber-400/10 text-amber-300">${ico('info', 'size-4')}</span>
-      <p class="min-w-0 flex-1 text-sm text-zinc-300">You are viewing <strong class="text-zinc-100">sample data</strong>. Edit or delete records as you go, or restore the defaults from Settings.</p>
-      <button type="button" class="btn btn-ghost btn-sm" data-action="dismiss-sample">Dismiss</button>
     </div>`;
 
   function toast(msg, tone = 'ok') {
@@ -1056,7 +1075,6 @@
       ${pageHead('Overview', `${greet}, 7H team`, 'Roster health, release runway and the A&R pipeline at a glance.', `
         <button type="button" class="btn btn-ghost" data-action="new-demo">${ico('inbox')} Log demo</button>
         <button type="button" class="btn btn-primary" data-action="new-release">${ico('plus')} New release</button>`)}
-      ${db.sample ? sampleBanner() : ''}
       <div class="grid grid-cols-2 gap-4 xl:grid-cols-4">
         ${metricCard('users', 'Active roster', active, `of ${db.roster.length} artists on the roster`, 'emerald')}
         ${metricCard('inbox', 'Pending demos', pending.length, `${newCount} new · ${pending.length - newCount} in review`, 'sky')}
@@ -1247,7 +1265,7 @@
     return `
     <div class="grid gap-5">
       <div class="grid gap-4 sm:grid-cols-2">
-        ${field('Track title *', `<input class="input" data-f="track" maxlength="120" value="${esc(s.track)}" placeholder="e.g. Kampala Nights" />`, 'sm:col-span-2')}
+        ${field('Track title *', `<input class="input" data-f="track" maxlength="120" value="${esc(s.track)}" placeholder="e.g. Track title" />`, 'sm:col-span-2')}
         ${field('Artist *', `<input class="input" data-f="artist" list="artist-list" maxlength="80" value="${esc(s.artist)}" placeholder="Performing artist" />`)}
         ${field('Producer *', `<input class="input" data-f="producer" maxlength="80" value="${esc(s.producer)}" placeholder="Producer name" />`)}
         ${field('Project / release', `<input class="input" data-f="project" maxlength="120" value="${esc(s.project)}" placeholder="Single, EP or album" />`)}
@@ -1669,7 +1687,7 @@
       ['Week 6', 'Lock the record', ['Final master approved and versions filed.', 'Cover artwork locked to the distributor spec (square, commonly 3000 × 3000 px).', 'Credits, ISRC and writer splits confirmed in the Split Sheet Generator.']],
       ['Week 5', 'Build the assets', ['Press kit: bio, six to eight photos, a one-line pitch and roster quotes.', 'Smart-link page built with pre-save enabled.', 'Caption bank and hashtags written for each platform.']],
       ['Week 4', 'Deliver to ONErpm', ['Upload master and artwork with the release date set at least four weeks out.', 'Confirm territories and metadata, then keep the delivery receipt.', 'Move the release to “Uploaded to ONErpm” in the Release Planner.']],
-      ['Week 3', 'Pitch', ['Spotify for Artists editorial pitch: one per unreleased track. Spotify’s stated minimum is 7 days, so this is our buffer. Verify current guidance in Spotify for Artists.', 'Matchfy.io curator campaign for independent playlists.', 'Pre-save link set live.']],
+      ['Week 3', 'Pitch', ['Spotify for Artists editorial pitch for one song at a time. Spotify asks for it at least 7 days before release, so this step is our buffer. The next pitch opens once this song goes live.', 'Matchfy.io curator campaign for independent playlists (paid).', 'Pre-save link set live.']],
       ['Week 2', 'Teasers and press', ['Three or four vertical TikTok snippets (15 to 30 seconds, hook in the first two seconds).', 'Press release draft sent to Kampala media. DJ and radio kits sent.']],
       ['Week 1', 'Momentum', ['Daily countdown posts and a WhatsApp broadcast to fans and DJs.', 'Confirm playlist and radio commitments.', 'Schedule every release-day post in advance.']],
       ['Release day', 'Drop', ['Smart link goes live. Each roster artist posts within two hours (see the rollout schedule).', 'Share to stories, WhatsApp statuses and the press list.', 'Move the release to “Campaign Active”.']],
@@ -1713,8 +1731,8 @@
     <form data-tpl="spotify" class="grid gap-6 lg:grid-cols-2">
       <div class="grid min-w-0 gap-4">
         <div class="grid gap-4 sm:grid-cols-2">
-          ${field('Artist', '<input class="input" name="artist" maxlength="80" value="Baranga" />')}
-          ${field('Track', '<input class="input" name="track" maxlength="120" value="Kampala Nights" />')}
+          ${field('Artist', '<input class="input" name="artist" maxlength="80" placeholder="Artist name" />')}
+          ${field('Track', '<input class="input" name="track" maxlength="120" placeholder="Track title" />')}
           ${field('Release date', `<input class="input" type="date" name="date" value="${addDays(todayISO(), 42)}" />`)}
           ${field('Sign-off', '<input class="input" name="sender" maxlength="120" placeholder="Name · 7H Music Group · email" />')}
         </div>
@@ -1880,7 +1898,7 @@
           <div class="mt-5 grid gap-3">
             <button type="button" class="qa" data-action="export-backup"><span class="qa-icon">${ico('download')}</span>Download backup (JSON)</button>
             <label class="qa cursor-pointer"><span class="qa-icon">${ico('upload')}</span>Restore from a backup file<input type="file" accept="application/json,.json" class="sr-only" data-change="import-file" /></label>
-            <button type="button" class="qa" data-action="restore-sample"><span class="qa-icon">${ico('sparkles')}</span>Restore sample data</button>
+            <button type="button" class="qa" data-action="restore-starter"><span class="qa-icon">${ico('sparkles')}</span>Restore starter data</button>
             <button type="button" class="qa qa-danger" data-action="erase-all"><span class="qa-icon">${ico('trash-2')}</span>Erase all data</button>
           </div>
         </section>
@@ -1918,7 +1936,7 @@
           ${field('Contract status', `<select class="select" name="contract">${CONTRACT_STATUSES.map((s) => `<option${s === v.contract ? ' selected' : ''}>${s}</option>`).join('')}</select>`)}
           ${field('Term ends', `<input class="input" type="date" name="contractEnd" value="${esc(v.contractEnd)}" />`)}
         </div>
-        <p class="mt-4 text-xs leading-relaxed text-zinc-500">Streaming links start as search pages. Paste each artist’s official profile URL to replace them. A blank field removes that link.</p>`,
+        <p class="mt-4 text-xs leading-relaxed text-zinc-500">Paste each artist’s official profile URL. A blank field removes that link.</p>`,
       footer: `${a ? `<button type="button" class="btn btn-danger mr-auto" data-action="delete-artist" data-id="${a.id}">${ico('trash-2')} Remove artist</button>` : ''}<button type="button" class="btn btn-ghost" data-action="close-modal">Cancel</button><button type="submit" class="btn btn-primary">${a ? 'Save profile' : 'Add artist'}</button>`,
     });
   }
@@ -2145,7 +2163,6 @@
     lock: () => lockDashboard('Dashboard locked.'),
     'close-modal': () => closeModal(),
     'confirm-yes': () => { const fn = confirmFn; closeModal(); fn?.(); },
-    'dismiss-sample': () => { db.sample = false; saveDb(); renderView(); },
     'go-generator': () => { pendingScroll = 'generator'; navigate('roster'); },
     'rel-view': (el) => { relView = el.dataset.v === 'timeline' ? 'timeline' : 'board'; renderView(); },
     'demo-filter': (el) => { demoFilter = el.dataset.v; updateDemos(); },
@@ -2228,10 +2245,10 @@
     },
     'copy-from': (el) => copyText($(`#${el.dataset.from}`)?.value || ''),
     'export-backup': () => exportBackup(),
-    'restore-sample': () => confirmBox({
-      title: 'Restore sample data?', confirmText: 'Restore sample', danger: true,
-      message: 'This replaces everything in this browser with the sample roster, releases, demos and contacts.',
-      onYes: () => { db = seedData(); saveDb(); renderView(); toast('Sample data restored.'); },
+    'restore-starter': () => confirmBox({
+      title: 'Restore starter data?', confirmText: 'Restore starter data', danger: true,
+      message: 'This replaces everything in this browser with the 7H starter records: the roster with public details, the released catalogue entries and the directory. Demos and split sheets are cleared.',
+      onYes: () => { db = seedData(); saveDb(); renderView(); toast('Starter data restored.'); },
     }),
     'erase-all': () => confirmBox({
       title: 'Erase all data?', confirmText: 'Erase everything', danger: true,
@@ -2444,8 +2461,9 @@
     if (!location.hash) history.replaceState(null, '', '#/overview');
     renderApp();
     if (pendingNotice) {
-      toast(pendingNotice, 'error');
+      toast(pendingNotice, pendingTone);
       pendingNotice = '';
+      pendingTone = 'error';
     }
   }
 
