@@ -6,10 +6,14 @@ The whole app is one static file, `index.html`. There is no build step. Tailwind
 
 ## Deploy on Vercel
 
-1. Import this repository in Vercel.
+1. In Vercel, create a new project under the **mike-1-ne** team and import `mikeo-ne/7HMANAGER`.
 2. Framework preset: **Other**. Leave the build command empty and the output directory as the default, so Vercel serves `index.html` from the repository root.
-3. Set the production branch (Settings → Git → Production Branch) to the branch that contains `index.html`. A production deployment of a branch without `index.html` returns 404.
-4. Open the deployment over HTTPS. PIN hashing uses the Web Crypto API, which only runs in a secure context (HTTPS or localhost).
+3. Settings → Git → **Production Branch**: `arena/b32710e6-7hmanager`. The default branch (`main`) holds only the README, so a production deployment from it returns 404.
+4. Settings → Deployment Protection: choose **All Deployments** with **Vercel Authentication**. Standard Protection leaves production domains open, so the production URL would be public. Vercel Authentication and All Deployments are included on every plan.
+5. Team access: invite each person to the Vercel team with at least the **Viewer** role. They sign in with their Vercel account to open the app. Anyone else who opens the link can request access, and a team owner, member, admin or developer can approve it.
+6. Open the deployment over HTTPS. PIN hashing uses the Web Crypto API, which only runs in a secure context (HTTPS or localhost).
+
+Deployment Protection is a Vercel project setting, not a file in this repository.
 
 ## Local preview
 
@@ -32,7 +36,7 @@ Settings → **Restore starter data** replaces everything in the browser with th
 
 ## First run
 
-- **Change the default PIN (`7H2026`) in Settings straight away.** The default is in the source, so the PIN gate is a convenience lock for internal use, not server-side authentication.
+- **Change the default PIN (`7H2026`) in Settings straight away.** The default is in the source, so the PIN gate is a convenience lock for internal use, not server-side authentication. Vercel sign-in and the app PIN are separate layers.
 - **Data stays in each browser.** Records live in localStorage. Use Settings → Download backup (JSON) regularly, because clearing site data erases everything.
 - **Check every contact before outreach.** Directory entries are public organisation details and may change.
 - The split sheet and agreement are working documents, not legal advice.
